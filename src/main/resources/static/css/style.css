@@ -1,0 +1,35 @@
+@charset "ISO-8859-1";
+
+thead > tr > th {
+/*     display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit; */
+    position: sticky;
+	top: 0;
+	background-color: #212121;
+}
+
+body {
+	
+	background-color: black;
+}
+
+#landingPageContainer{
+	
+	color: white;
+}
+#main-table {
+	color: white;
+}
+
+.totalCasesNumber{
+	
+	color: red;
+}
+
+#main-header{
+	background-color: #212121;
+	margin: 25px 0px 10px 0px;
+	padding: 20px;
+	padding-bottom: 5px;
+}
