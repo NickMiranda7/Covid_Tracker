@@ -11,6 +11,24 @@ public class LocationStats {
 	private int changesSinceLastDayLocal;
 	
 	
+	
+	
+	
+	public LocationStats() {
+		
+	}
+
+	public LocationStats(String state, String country, String province, int latestTotalCases, int totalUSACases,
+			int changesSinceLastDayTotal, int changesSinceLastDayLocal) {
+		this.state = state;
+		this.country = country;
+		this.province = province;
+		this.latestTotalCases = latestTotalCases;
+		this.totalUSACases = totalUSACases;
+		this.changesSinceLastDayTotal = changesSinceLastDayTotal;
+		this.changesSinceLastDayLocal = changesSinceLastDayLocal;
+	}
+	
 	public String getState() {
 		return state;
 	}

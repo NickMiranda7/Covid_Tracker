@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +20,10 @@
 	<p>This application is used to track COVID-19 cases throughout the United States of America</p>
 	
 	<div class="background" id="main-header">
-		<h1 class="totalCasesNumber">${locationDataTotal.totalUSACases}</h1> 
+		<h1 class="totalCasesNumber"><fmt:formatNumber value="${locationDataTotal.totalUSACases}"/></h1> 
 		<p>Total cases as of today</p>
 		<br>
-		<p>New cases reported since yesterday: ${locationDataTotal.changesSinceLastDayTotal} </p>
+		<p>New cases reported since yesterday: <fmt:formatNumber value="${locationDataTotal.changesSinceLastDayTotal}"/> </p>
 	</div>
 	
 	<div>
@@ -33,7 +34,7 @@
 					<th>Province</th>
 					<th>Country</th>
 					<th>Total Cases Reported</th>
-					<th>Changes since last day</th>
+					<th>New cases since yesterday</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -42,7 +43,7 @@
 					<td><c:out value="${data.state}"></c:out></td>
 					<td><c:out value="${data.province}"></c:out></td>
 					<td><c:out value="${data.country}"></c:out></td>
-					<td class="totalCasesNumber"><c:out value="${data.latestTotalCases}"></c:out></td>
+					<td class="totalCasesNumber"><fmt:formatNumber value="${data.latestTotalCases}"/></td>
 					<td><c:out value="${data.changesSinceLastDayLocal}"></c:out></td>
 				</tr>			
 			</c:forEach>
