@@ -3,8 +3,6 @@ package com.nick.CoronavirusTracker.models;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 
 @Entity
 public class World {
@@ -13,8 +11,10 @@ public class World {
 
 	private String name;
 	private Long worldPopulation;
+	private int latestTotalCases;
+	private int changeInTotalSinceYesterday;
 	
-	@OneToMany(mappedBy="world", fetch = FetchType.LAZY)
+	//world has many country_regions
 	private List<Country_Region> Country_Regions;
 
 	
@@ -23,11 +23,27 @@ public class World {
 
 	}
 
-	public World(int uID, String name, Long population, List<Country_Region> country_Regions) {
-		UID = uID;
+	public World(int UID, String name, Long population, List<Country_Region> Country_Regions) {
+		this.UID = UID;
 		this.name = name;
 		this.worldPopulation = population;
-		Country_Regions = country_Regions;
+		this.Country_Regions = Country_Regions;
+	}
+
+	public int getLatestTotalCases() {
+		return latestTotalCases;
+	}
+
+	public void setLatestTotalCases(int latestTotalCases) {
+		this.latestTotalCases = latestTotalCases;
+	}
+
+	public int getChangeInTotalSinceYesterday() {
+		return changeInTotalSinceYesterday;
+	}
+
+	public void setChangeInTotalSinceYesterday(int changeInTotalSinceYesterday) {
+		this.changeInTotalSinceYesterday = changeInTotalSinceYesterday;
 	}
 
 	public int getUID() {

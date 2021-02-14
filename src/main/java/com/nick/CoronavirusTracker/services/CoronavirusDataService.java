@@ -53,7 +53,7 @@ public class CoronavirusDataService {
 		
 		int totalCases = 0;
 		int previousDayTotal = 0;
-		int totalCasesToday = 0;
+		// int totalCasesToday = 0;
 		for (CSVRecord record : records) {
 			LocationStats locationStat = new LocationStats();
 			
@@ -61,7 +61,7 @@ public class CoronavirusDataService {
 			int previousDay = Integer.parseInt(record.get(record.size() - 2));
 			totalCases = totalCases + currentDay;
 		    previousDayTotal = previousDayTotal + previousDay;
-		    totalCasesToday = totalCasesToday + currentDay;
+		   // totalCasesToday = totalCasesToday + currentDay;
 			
 		    locationStat.setState(record.get("Province_State"));
 		    locationStat.setProvince(record.get("Admin2"));
