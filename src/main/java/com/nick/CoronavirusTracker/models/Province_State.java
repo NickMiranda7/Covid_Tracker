@@ -4,13 +4,11 @@ package com.nick.CoronavirusTracker.models;
 public class Province_State {
 
 	private int UID;
-	
+	private String name;
 	private Double Lat;
 	private Double Long;
-	private int province_statePopulation;
+	private int province_population;
 	
-	//each state belongs to one country or region
-	private Country_Region Country_Region;
 	//each province or state has one set of CoronaVirus stats
 	private CoronavirusStats CoronavirusStats;
 	
@@ -20,19 +18,23 @@ public class Province_State {
 		
 	}
 
-	public Province_State(int UID, Double Lat, Double Long, 
-							int province_statePopulation,
-							Country_Region Country_Region,
+	public Province_State(int UID, String name, Double Lat, Double Long, 
 							CoronavirusStats CoronavirusStats) {
-		
+		this.name = name;
 		this.UID = UID;
 		this.Lat = Lat;
 		this.Long = Long;
-		this.province_statePopulation = province_statePopulation;
-		this.Country_Region = Country_Region;
 		this.CoronavirusStats = CoronavirusStats;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int getUID() {
 		return UID;
 	}
@@ -51,23 +53,21 @@ public class Province_State {
 	public void setLong(Double l) {
 		Long = l;
 	}
-	public int getProvince_statePopulation() {
-		return province_statePopulation;
+	public int getProvince_population() {
+		return province_population;
 	}
-	public void setProvince_statePopulation(int province_statePopulation) {
-		this.province_statePopulation = province_statePopulation;
-	}
-	public Country_Region getCountry_Region() {
-		return Country_Region;
-	}
-	public void setCountry_Region(Country_Region country_Region) {
-		Country_Region = country_Region;
+	public void setProvince_population(int province_statePopulation) {
+		this.province_population = province_statePopulation;
 	}
 	public CoronavirusStats getCoronavirusStats() {
 		return CoronavirusStats;
 	}
 	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
 		CoronavirusStats = coronavirusStats;
+	}
+	
+	public void addToPopulation(int provincePopulation) {
+		this.province_population = this.province_population + provincePopulation;
 	}
 	
 	

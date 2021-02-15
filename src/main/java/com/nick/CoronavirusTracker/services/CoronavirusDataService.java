@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 
 import com.nick.CoronavirusTracker.helpers.HttpHelpers;
 import com.nick.CoronavirusTracker.models.LocationStats;
+import com.nick.CoronavirusTracker.models.World;
+import com.nick.CoronavirusTracker.models.Country_Region;
+import com.nick.CoronavirusTracker.models.Province_State;
 
 @Service
 public class CoronavirusDataService {
@@ -25,7 +28,8 @@ public class CoronavirusDataService {
 	@Autowired
 	private HttpHelpers helper;
 	
-	private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
+	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
+	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 	
 	public List<LocationStats> allStats = new ArrayList<>();
 	
@@ -40,7 +44,7 @@ public class CoronavirusDataService {
 
 		//OOP not from tutorial
 		HttpClient httpClient = helper.createHttpClient();
-		HttpRequest httpRequest = helper.createHttpRequest(VIRUS_DATA_URL);
+		HttpRequest httpRequest = helper.createHttpRequest(VIRUS_DATA_USA);
 		
 		// client sends request then takes the body and returns it as a string
 		@SuppressWarnings("unchecked")
@@ -51,10 +55,37 @@ public class CoronavirusDataService {
 		
 		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBody);
 		
+		World world = generateWorld(records);
+		
 		int totalCases = 0;
 		int previousDayTotal = 0;
 		// int totalCasesToday = 0;
+		
+		    
+		    locationStat.setLatestTotalCases(currentDay);
+		    locationStat.setTotalUSACases(totalCases);
+		    locationStat.setChangesSinceLastDayTotal(totalCases - previousDayTotal);
+		    locationStat.setChangesSinceLastDayLocal(currentDay - previousDay);
+		   
+		    // appending to list (this last line, line 83 came from the tutorial)
+		    newStats.add(locationStat);
+		
+//		System.out.println(newStats.get(newStats.size() - 1).getTotalUSACases());
+//		System.out.println(newStats.get(newStats.size() - 1).getChangesSinceLastDayTotal());
+
+		this.allStats = newStats;
+	}
+	
+	private World generateWorld(Iterable<CSVRecord> records){
+		
+		World world = new World(1, "Earth");
+		
 		for (CSVRecord record : records) {
+			
+			generateNewCountry(world, record);
+			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
+			Province_State province = generateNewProvince(country, record);
+		
 			LocationStats locationStat = new LocationStats();
 			
 			int currentDay = Integer.parseInt(record.get(record.size() - 1));
@@ -66,20 +97,42 @@ public class CoronavirusDataService {
 		    locationStat.setState(record.get("Province_State"));
 		    locationStat.setProvince(record.get("Admin2"));
 		    locationStat.setCountry(record.get("Country_Region"));
-		    
-		    locationStat.setLatestTotalCases(currentDay);
-		    locationStat.setTotalUSACases(totalCases);
-		    locationStat.setChangesSinceLastDayTotal(totalCases - previousDayTotal);
-		    locationStat.setChangesSinceLastDayLocal(currentDay - previousDay);
-		   
-		    // appending to list (this last line, line 83 came from the tutorial)
-		    newStats.add(locationStat);
-		}
-//		System.out.println(newStats.get(newStats.size() - 1).getTotalUSACases());
-//		System.out.println(newStats.get(newStats.size() - 1).getChangesSinceLastDayTotal());
-
-		this.allStats = newStats;
+		
+		return world;
+		}	
 	}
 	
+	private void generateNewCountry(World world, CSVRecord record) {
+		String countryRegionName = record.get("Country_Region");
+		boolean isAvailable = true;
+		// TODO: Create helper attribute to contain CSV file headings -- do this last
+		
+		
+		for (Country_Region country : world.getCountry_Regions())
+		{
+			if (country.getName().equals(countryRegionName)) {
+				isAvailable = false;
+			}
+		}
+		
+		if (isAvailable = true){
+			// TODO: make ID generator
+			Country_Region country = new Country_Region(1, countryRegionName);
+			world.addCountry(country);
+		};
+		
+	}
 	
+	private void generateNewProvince(Country_Region country, CSVRecord record)
+	{
+		String provinceName = record.get("Province_State");
+		double latitude = record.get("Lat");
+		double longitude = record.get("Long");
+		// TODO: Generate stats object  hint: make new method to generate stats per record on province
+		// int stats = Integer.parseInt(record.get(record.size() - 1));
+		Province_State province = new Province_State(1, provinceName, latitude, longitude, //Stats Object);
+		country.addProvince(province);
+	}
 }
+
+// for loop on list and check list inside if contains list

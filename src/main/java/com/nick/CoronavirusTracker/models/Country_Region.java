@@ -1,19 +1,13 @@
 package com.nick.CoronavirusTracker.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Country_Region {
 
-	private int UID;
-	
+	private int uid;
 	private String name;
 	private int countryPopulation;
-	private int latestTotalCases;
-	private int changeInTotalSinceYesterday;
-	
-	
-	private World World;
-	//country_regions can have many provinces_stats
 	private List<Province_State> Province_States;
 	
 	
@@ -22,23 +16,18 @@ public class Country_Region {
 		
 	}
 	
-	public Country_Region(int UID, String name, int countryPopulation, int latestTotalCases,
-			int changeInTotalSinceYesterday, World World,
-			List<Province_State> Province_States) {
-		this.UID = UID;
+	public Country_Region(int uid, String name) {
+		this.uid = uid;
 		this.name = name;
-		this.countryPopulation = countryPopulation;
-		this.latestTotalCases = latestTotalCases;
-		this.changeInTotalSinceYesterday = changeInTotalSinceYesterday;
-		this.World = World;
-		this.Province_States = Province_States;
+		this.countryPopulation = 0;
+		this.Province_States = new ArrayList<Province_State>();
 	}
 	
 	public int getUID() {
-		return UID;
+		return uid;
 	}
 	public void setUID(int uID) {
-		UID = uID;
+		uid = uID;
 	}
 	public String getName() {
 		return name;
@@ -52,24 +41,6 @@ public class Country_Region {
 	public void setCountryPopulation(int countryPopulation) {
 		this.countryPopulation = countryPopulation;
 	}
-	public int getLatestTotalCases() {
-		return latestTotalCases;
-	}
-	public void setLatestTotalCases(int latestTotalCases) {
-		this.latestTotalCases = latestTotalCases;
-	}
-	public int getChangeInTotalSinceYesterday() {
-		return changeInTotalSinceYesterday;
-	}
-	public void setChangeInTotalSinceYesterday(int changeInTotalSinceYesterday) {
-		this.changeInTotalSinceYesterday = changeInTotalSinceYesterday;
-	}
-	public World getWorld() {
-		return World;
-	}
-	public void setWorld(World world) {
-		World = world;
-	}
 	public List<Province_State> getProvince_States() {
 		return Province_States;
 	}
@@ -77,5 +48,12 @@ public class Country_Region {
 		Province_States = province_States;
 	}
 	
+	public void addProvince(Province_State province_State) {
+		this.Province_States.add(province_State); 
+	}
+	
+	public void addToPopulation(int countryPopulation) {
+		this.countryPopulation = this.countryPopulation + countryPopulation;
+	}
 	
 }
