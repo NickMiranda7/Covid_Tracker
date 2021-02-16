@@ -125,9 +125,10 @@ public class CoronavirusDataService {
 	
 	private Province generateNewProvince(Country_Region country, CSVRecord record)
 	{
+	
 		String provinceName = record.get("Province_State");
-		double latitude = record.get("Lat");
-		double longitude = record.get("Long_");
+		Double latitude = Double.parseDouble(record.get("Lat"));
+		Double longitude = Double.parseDouble(record.get("Long_"));
 		// TODO: Generate stats object  hint: make new method to generate stats per record on province
 		// int stats = Integer.parseInt(record.get(record.size() - 1));
 		Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);

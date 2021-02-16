@@ -7,8 +7,8 @@ public class Country_Region {
 
 	private int uid;
 	private String name;
-	private int countryPopulation;
-	private List<Province> Province_States;
+	private List<Province> Provinces;
+	private List<States> States; 
 	
 	
 	
@@ -19,15 +19,15 @@ public class Country_Region {
 	public Country_Region(int uid, String name) {
 		this.uid = uid;
 		this.name = name;
-		this.countryPopulation = 0;
-		this.Province_States = new ArrayList<Province>();
+		this.Provinces = new ArrayList<Province>();
+		this.States = new ArrayList<States>();
 	}
 	
 	public int getUID() {
 		return uid;
 	}
-	public void setUID(int uID) {
-		uid = uID;
+	public void setUID(int uid) {
+		this.uid = uid;
 	}
 	public String getName() {
 		return name;
@@ -35,25 +35,28 @@ public class Country_Region {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCountryPopulation() {
-		return countryPopulation;
-	}
-	public void setCountryPopulation(int countryPopulation) {
-		this.countryPopulation = countryPopulation;
-	}
+
 	public List<Province> getProvince_States() {
-		return Province_States;
+		return Provinces;
 	}
-	public void setProvince_States(List<Province> province_States) {
-		Province_States = province_States;
-	}
-	
-	public void addProvince(Province province_State) {
-		this.Province_States.add(province_State); 
+	public void setProvince_States(List<Province> province) {
+		Provinces = province;
 	}
 	
-	public void addToPopulation(int countryPopulation) {
-		this.countryPopulation = this.countryPopulation + countryPopulation;
+	public List<States> getStates() {
+		return States;
 	}
+
+	public void setStates(List<States> states) {
+		States = states;
+	}
+
+	public void addProvince(Province province) {
+		this.Provinces.add(province); 
+	}
+	public void addState(States state) {
+		this.States.add(state);
+	}
+	
 	
 }

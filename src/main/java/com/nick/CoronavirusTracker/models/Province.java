@@ -7,7 +7,6 @@ public class Province {
 	private String name;
 	private Double Lat;
 	private Double Long;
-	private int province_population;
 	
 	//each province has one set of CoronaVirus stats
 	private CoronavirusStats CoronavirusStats;
@@ -53,12 +52,7 @@ public class Province {
 	public void setLong(Double l) {
 		Long = l;
 	}
-	public int getProvince_population() {
-		return province_population;
-	}
-	public void setProvince_population(int province_statePopulation) {
-		this.province_population = province_statePopulation;
-	}
+
 	public CoronavirusStats getCoronavirusStats() {
 		return CoronavirusStats;
 	}
@@ -66,9 +60,6 @@ public class Province {
 		CoronavirusStats = coronavirusStats;
 	}
 	
-	public void addToPopulation(int provincePopulation) {
-		this.province_population = this.province_population + provincePopulation;
-	}
 	
 	
 }
