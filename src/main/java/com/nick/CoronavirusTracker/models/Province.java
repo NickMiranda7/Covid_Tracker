@@ -1,7 +1,7 @@
 package com.nick.CoronavirusTracker.models;
 
 
-public class Province_State {
+public class Province {
 
 	private int UID;
 	private String name;
@@ -9,16 +9,16 @@ public class Province_State {
 	private Double Long;
 	private int province_population;
 	
-	//each province or state has one set of CoronaVirus stats
+	//each province has one set of CoronaVirus stats
 	private CoronavirusStats CoronavirusStats;
 	
 	
 	
-	public Province_State() {
+	public Province() {
 		
 	}
 
-	public Province_State(int UID, String name, Double Lat, Double Long, 
+	public Province(int UID, String name, Double Lat, Double Long, 
 							CoronavirusStats CoronavirusStats) {
 		this.name = name;
 		this.UID = UID;
@@ -38,8 +38,8 @@ public class Province_State {
 	public int getUID() {
 		return UID;
 	}
-	public void setUID(int uID) {
-		UID = uID;
+	public void setUID(int UID) {
+		this.UID = UID;
 	}
 	public Double getLat() {
 		return Lat;

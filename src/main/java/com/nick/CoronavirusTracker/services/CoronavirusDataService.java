@@ -20,7 +20,7 @@ import com.nick.CoronavirusTracker.helpers.HttpHelpers;
 import com.nick.CoronavirusTracker.models.LocationStats;
 import com.nick.CoronavirusTracker.models.World;
 import com.nick.CoronavirusTracker.models.Country_Region;
-import com.nick.CoronavirusTracker.models.Province_State;
+import com.nick.CoronavirusTracker.models.Province;
 
 @Service
 public class CoronavirusDataService {
@@ -84,7 +84,7 @@ public class CoronavirusDataService {
 			
 			generateNewCountry(world, record);
 			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-			Province_State province = generateNewProvince(country, record);
+			Province province = generateNewProvince(country, record);
 		
 			LocationStats locationStat = new LocationStats();
 			
@@ -123,16 +123,17 @@ public class CoronavirusDataService {
 		
 	}
 	
-	private void generateNewProvince(Country_Region country, CSVRecord record)
+	private Province generateNewProvince(Country_Region country, CSVRecord record)
 	{
 		String provinceName = record.get("Province_State");
 		double latitude = record.get("Lat");
-		double longitude = record.get("Long");
+		double longitude = record.get("Long_");
 		// TODO: Generate stats object  hint: make new method to generate stats per record on province
 		// int stats = Integer.parseInt(record.get(record.size() - 1));
-		Province_State province = new Province_State(1, provinceName, latitude, longitude, //Stats Object);
+		Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);
 		country.addProvince(province);
 	}
+	
 }
 
 // for loop on list and check list inside if contains list
