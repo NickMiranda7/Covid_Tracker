@@ -6,18 +6,14 @@ public class States {
 	private String name;
 
 	
-	
-	
 	public States() {
 		
 	}
-
 	
 	public States(int UID, String name) {
 		this.UID = UID;
 		this.name = name;
 	}
-
 
 	public int getUID() {
 		return UID;

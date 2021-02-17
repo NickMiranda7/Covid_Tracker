@@ -36,10 +36,10 @@ public class Country_Region {
 		this.name = name;
 	}
 
-	public List<Province> getProvince_States() {
+	public List<Province> getProvince() {
 		return Provinces;
 	}
-	public void setProvince_States(List<Province> province) {
+	public void setProvince(List<Province> province) {
 		Provinces = province;
 	}
 	

@@ -21,6 +21,8 @@ import com.nick.CoronavirusTracker.models.LocationStats;
 import com.nick.CoronavirusTracker.models.World;
 import com.nick.CoronavirusTracker.models.Country_Region;
 import com.nick.CoronavirusTracker.models.Province;
+import com.nick.CoronavirusTracker.models.States;
+import com.nick.CoronavirusTracker.models.USAStateCounty;
 
 @Service
 public class CoronavirusDataService {
@@ -119,21 +121,35 @@ public class CoronavirusDataService {
 			// TODO: make ID generator
 			Country_Region country = new Country_Region(1, countryRegionName);
 			world.addCountry(country);
-		};
+		}
+	
+	}
+	
+	private Province generateNewState(Country_Region country, CSVRecord record) {
+		String stateName = record.get("Province_State");
+		boolean isAvailable = true;
+		
+		for(States state : country.getStates()) 
+		{
+			if (state.getName().equals(stateName)) {
+				isAvailable = false;
+			}
+		}
+		
+		if (isAvailable = true) {
+			// TODO: make ID generator
+			States state = new States(1, stateName);
+			country.addState(state);
+		}
 		
 	}
 	
-	private Province generateNewProvince(Country_Region country, CSVRecord record)
-	{
-	
-		String provinceName = record.get("Province_State");
-		Double latitude = Double.parseDouble(record.get("Lat"));
-		Double longitude = Double.parseDouble(record.get("Long_"));
-		// TODO: Generate stats object  hint: make new method to generate stats per record on province
-		// int stats = Integer.parseInt(record.get(record.size() - 1));
-		Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);
-		country.addProvince(province);
-	}
+	Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);
+			country.addProvince(province);
+	Double latitude = Double.parseDouble(record.get("Lat"));
+	Double longitude = Double.parseDouble(record.get("Long_"));
+	// TODO: Generate stats object  hint: make new method to generate stats per record on province
+	// int stats = Integer.parseInt(record.get(record.size() - 1));
 	
 }
 

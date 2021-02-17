@@ -1,6 +1,6 @@
 package com.nick.CoronavirusTracker.models;
 
-public class USAStateProvince {
+public class USAStateCounty {
 	
 	private int UID;
 	private String name;
@@ -12,12 +12,12 @@ public class USAStateProvince {
 		
 	
 	
-	public USAStateProvince() {
+	public USAStateCounty() {
 	
 	}
 	
 
-	public USAStateProvince(int UID, String name, Double Lat, Double Long,
+	public USAStateCounty(int UID, String name, Double Lat, Double Long,
 			CoronavirusStats coronavirusStats) {
 		
 		this.UID = UID;
