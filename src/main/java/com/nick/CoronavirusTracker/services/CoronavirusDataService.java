@@ -125,7 +125,7 @@ public class CoronavirusDataService {
 	
 	}
 	
-	private Province generateNewState(Country_Region country, CSVRecord record) {
+	private void generateNewState(Country_Region country, CSVRecord record) {
 		String stateName = record.get("Province_State");
 		boolean isAvailable = true;
 		
@@ -144,10 +144,32 @@ public class CoronavirusDataService {
 		
 	}
 	
+	private void generateNewCounty(States state, CSVRecord record) {
+		String countyName = record.get("Admin2");
+		Double latitude = Double.parseDouble(record.get("Lat"));
+		Double longitude = Double.parseDouble(record.get("Long_"));
+		boolean isAvailable = true;
+		
+		for(USAStateCounty county : state.getStateCounty())
+		{
+			if (county.getName().equals(countyName)) {
+				isAvailable = false;
+			}
+		}
+		
+		if(isAvailable = true) {
+			USAStateCounty stateCounty = new USAStateCounty(1, countyName, latitude, longitude);
+			state.addStateCounty(stateCounty);
+		}
+	}
+	
+	private void generateNewProvince(Country_Region country, CSVRecord record) 
+	
+	
+	
 	Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);
 			country.addProvince(province);
-	Double latitude = Double.parseDouble(record.get("Lat"));
-	Double longitude = Double.parseDouble(record.get("Long_"));
+
 	// TODO: Generate stats object  hint: make new method to generate stats per record on province
 	// int stats = Integer.parseInt(record.get(record.size() - 1));
 	

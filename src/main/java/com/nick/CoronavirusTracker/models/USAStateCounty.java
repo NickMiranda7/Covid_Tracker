@@ -1,5 +1,8 @@
 package com.nick.CoronavirusTracker.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class USAStateCounty {
 	
 	private int UID;
@@ -8,7 +11,7 @@ public class USAStateCounty {
 	private Double Long;
 	
 	//each province has one set of CoronaVirus stats
-	private CoronavirusStats CoronavirusStats;
+	private List <CoronavirusStats> CoronavirusStats;
 		
 	
 	
@@ -17,14 +20,13 @@ public class USAStateCounty {
 	}
 	
 
-	public USAStateCounty(int UID, String name, Double Lat, Double Long,
-			CoronavirusStats coronavirusStats) {
+	public USAStateCounty(int UID, String name, Double Lat, Double Long) {
 		
 		this.UID = UID;
 		this.name = name;
 		this.Lat = Lat;
 		this.Long = Long;
-		this.CoronavirusStats = coronavirusStats;
+		this.CoronavirusStats = new ArrayList<CoronavirusStats>();
 	}
 
 
@@ -61,11 +63,17 @@ public class USAStateCounty {
 	}
 
 
-	public CoronavirusStats getCoronavirusStats() {
+	public List<CoronavirusStats> getCoronavirusStats() {
 		return CoronavirusStats;
 	}
 
-	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
+
+	public void setCoronavirusStats(List<CoronavirusStats> coronavirusStats) {
 		CoronavirusStats = coronavirusStats;
 	}
+
+	public void addCoronavirusStats(CoronavirusStats coronavirusStats) {
+		this.CoronavirusStats.add(coronavirusStats);
+	}
+
 }
