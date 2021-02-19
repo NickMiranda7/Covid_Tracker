@@ -17,12 +17,12 @@ public class Country_Region {
 		
 	}
 	
-	public Country_Region(int uid, String name, CoronavirusStats CoronavirusStats) {
+	public Country_Region(int uid, String name) {
 		this.uid = uid;
 		this.name = name;
 		this.Provinces = new ArrayList<Province>();
 		this.States = new ArrayList<States>();
-		this.CoronavirusStats = CoronavirusStats;
+		// this.CoronavirusStats = CoronavirusStats;
 	}
 	
 	public int getUID() {

@@ -7,7 +7,7 @@ public class CoronavirusStats {
 	// private HashMap<LocalDate, Integer> casesRecorded = new HashMap<LocalDate, Integer>();
 	private int cases;
 	private int yesterdayCases;
-	private int deaths;
+	// private int deaths;
 	// Recovered?
 	
 	public CoronavirusStats() {
@@ -15,10 +15,10 @@ public class CoronavirusStats {
 	}
 
 
-	public CoronavirusStats(int cases, int yesterdayCases, int deaths) {
+	public CoronavirusStats(int cases, int yesterdayCases) {
 		this.cases = cases;
-		this.deaths = deaths;
 		this.yesterdayCases = yesterdayCases;
+		// this.deaths = deaths;
 	}
 
 
@@ -40,14 +40,14 @@ public class CoronavirusStats {
 		this.yesterdayCases = yesterdayCases;
 	}
 
-
-	public int getDeaths() {
-		return deaths;
-	}
-
-
-	public void setDeaths(int deaths) {
-		this.deaths = deaths;
-	}
+//
+//	public int getDeaths() {
+//		return deaths;
+//	}
+//
+//
+//	public void setDeaths(int deaths) {
+//		this.deaths = deaths;
+//	}
 
 }

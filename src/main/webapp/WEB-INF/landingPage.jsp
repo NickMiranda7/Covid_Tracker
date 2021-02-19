@@ -38,7 +38,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach items="${locationData}" var="data">
+			<c:forEach items="${World}" var="data">
 				<tr>
 					<td><c:out value="${data.state}"></c:out></td>
 					<td><c:out value="${data.province}"></c:out></td>

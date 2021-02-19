@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.nick.CoronavirusTracker.helpers.HttpHelpers;
 import com.nick.CoronavirusTracker.models.LocationStats;
 import com.nick.CoronavirusTracker.models.World;
+import com.nick.CoronavirusTracker.models.CoronavirusStats;
 import com.nick.CoronavirusTracker.models.Country_Region;
 import com.nick.CoronavirusTracker.models.Province;
 import com.nick.CoronavirusTracker.models.States;
@@ -33,14 +34,13 @@ public class CoronavirusDataService {
 	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
 	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 	
-	public List<LocationStats> allStats = new ArrayList<>();
 	
 	
 	// this annotation executes this method whenever the application is started
 	@PostConstruct
 	// schedules when this method will run
 	@Scheduled(cron = "* * 1 * * *")
-	public void fetchVirusData() throws IOException, InterruptedException {
+	public World fetchVirusData() throws IOException, InterruptedException {
 		// to overwrite with updated stats
 		List<LocationStats> newStats = new ArrayList<>();
 
@@ -58,28 +58,8 @@ public class CoronavirusDataService {
 		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBody);
 		
 		World world = generateWorld(records);
-		
-		
-		
-		
-		
-		int totalCases = 0;
-		int previousDayTotal = 0;
-		// int totalCasesToday = 0;
-		
-		    
-		    locationStat.setLatestTotalCases(currentDay);
-		    locationStat.setTotalUSACases(totalCases);
-		    locationStat.setChangesSinceLastDayTotal(totalCases - previousDayTotal);
-		    locationStat.setChangesSinceLastDayLocal(currentDay - previousDay);
-		   
-		    // appending to list (this last line, line 83 came from the tutorial)
-		    newStats.add(locationStat);
-		
-//		System.out.println(newStats.get(newStats.size() - 1).getTotalUSACases());
-//		System.out.println(newStats.get(newStats.size() - 1).getChangesSinceLastDayTotal());
+		return world;
 
-		this.allStats = newStats;
 	}
 	
 	private World generateWorld(Iterable<CSVRecord> records){
@@ -96,22 +76,8 @@ public class CoronavirusDataService {
 			
 			generateNewCounty(state, record);
 			
-			// Province province = generateNewProvince(country, record);
-		
-			LocationStats locationStat = new LocationStats();
-			
-			int currentDay = Integer.parseInt(record.get(record.size() - 1));
-			int previousDay = Integer.parseInt(record.get(record.size() - 2));
-			totalCases = totalCases + currentDay;
-		    previousDayTotal = previousDayTotal + previousDay;
-		    // totalCasesToday = totalCasesToday + currentDay;
-//			
-//		    locationStat.setState(record.get("Province_State"));
-//		    locationStat.setProvince(record.get("Admin2"));
-//		    locationStat.setCountry(record.get("Country_Region"));
-//		
-		return world;
 		}	
+		return world;
 	}
 	
 	private void generateNewCountry(World world, CSVRecord record) {
@@ -169,39 +135,41 @@ public class CoronavirusDataService {
 		
 		if(isAvailable = true) {
 			// TODO: generate stats and add it to the county
-			USAStateCounty stateCounty = new USAStateCounty(1, countyName, latitude, longitude);
+			CoronavirusStats stats = getCoronavirusStats(record);
+			USAStateCounty stateCounty = new USAStateCounty(1, countyName, latitude, longitude, stats);
 			state.addStateCounty(stateCounty);
 		}
 		
 	}
 	
-	private void generateNewProvince(Country_Region country, CSVRecord record) { 
-		String provinceName = record.get("Province/State");
-		Double latitude = Double.parseDouble(record.get("Lat"));
-		Double longitude = Double.parseDouble(record.get("Long"));
-		boolean isAvailable = true;
-		
-		for(Province province : country.getProvince()) 
-		{
-			if (province.getName().equals(provinceName) || province.getName().equals("")) {
-				isAvailable = false;
-			}
-		}
-		
-		if(isAvailable = true) {
-			// TODO: generate stats and add it to the province
-			Province province = new Province(1, latitude, longitude);
-			country.addProvince(province);
-		}
+//	private void generateNewProvince(Country_Region country, CSVRecord record) { 
+//		String provinceName = record.get("Province/State");
+//		Double latitude = Double.parseDouble(record.get("Lat"));
+//		Double longitude = Double.parseDouble(record.get("Long"));
+//		boolean isAvailable = true;
+//		
+//		for(Province province : country.getProvince()) 
+//		{
+//			if (province.getName().equals(provinceName) || province.getName().equals("")) {
+//				isAvailable = false;
+//			}
+//		}
+//		
+//		if(isAvailable = true) {
+//			// TODO: generate stats and add it to the province
+//			CoronavirusStats stats = fetchCoronavirusStats(record);
+//			Province province = new Province(1, provinceName, latitude, longitude, stats);
+//			country.addProvince(province);
+//		}
+//	}
+	
+	private CoronavirusStats getCoronavirusStats(CSVRecord record) {
+		int cases = Integer.parseInt(record.get(record.size() - 1));
+		int yesterdayCases = Integer.parseInt(record.get(record.size() - 1));
+		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
+		return stats;
 	}
 	
-	
-	
-	Province province = new Province(1, provinceName, latitude, longitude, //Stats Object);
-			country.addProvince(province);
-
-	// TODO: Generate stats object  hint: make new method to generate stats per record on province
-	// int stats = Integer.parseInt(record.get(record.size() - 1));
 	
 }
 
