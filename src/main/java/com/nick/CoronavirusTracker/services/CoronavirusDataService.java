@@ -59,6 +59,10 @@ public class CoronavirusDataService {
 		
 		World world = generateWorld(records);
 		
+		
+		
+		
+		
 		int totalCases = 0;
 		int previousDayTotal = 0;
 		// int totalCasesToday = 0;
@@ -86,7 +90,13 @@ public class CoronavirusDataService {
 			
 			generateNewCountry(world, record);
 			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-			Province province = generateNewProvince(country, record);
+			
+			generateNewState(country, record);
+			States state = country.getStates().get(country.getStates().size() -1);
+			
+			generateNewCounty(state, record);
+			
+			// Province province = generateNewProvince(country, record);
 		
 			LocationStats locationStat = new LocationStats();
 			
@@ -94,12 +104,12 @@ public class CoronavirusDataService {
 			int previousDay = Integer.parseInt(record.get(record.size() - 2));
 			totalCases = totalCases + currentDay;
 		    previousDayTotal = previousDayTotal + previousDay;
-		   // totalCasesToday = totalCasesToday + currentDay;
-			
-		    locationStat.setState(record.get("Province_State"));
-		    locationStat.setProvince(record.get("Admin2"));
-		    locationStat.setCountry(record.get("Country_Region"));
-		
+		    // totalCasesToday = totalCasesToday + currentDay;
+//			
+//		    locationStat.setState(record.get("Province_State"));
+//		    locationStat.setProvince(record.get("Admin2"));
+//		    locationStat.setCountry(record.get("Country_Region"));
+//		
 		return world;
 		}	
 	}
@@ -158,12 +168,32 @@ public class CoronavirusDataService {
 		}
 		
 		if(isAvailable = true) {
+			// TODO: generate stats and add it to the county
 			USAStateCounty stateCounty = new USAStateCounty(1, countyName, latitude, longitude);
 			state.addStateCounty(stateCounty);
 		}
+		
 	}
 	
-	private void generateNewProvince(Country_Region country, CSVRecord record) 
+	private void generateNewProvince(Country_Region country, CSVRecord record) { 
+		String provinceName = record.get("Province/State");
+		Double latitude = Double.parseDouble(record.get("Lat"));
+		Double longitude = Double.parseDouble(record.get("Long"));
+		boolean isAvailable = true;
+		
+		for(Province province : country.getProvince()) 
+		{
+			if (province.getName().equals(provinceName) || province.getName().equals("")) {
+				isAvailable = false;
+			}
+		}
+		
+		if(isAvailable = true) {
+			// TODO: generate stats and add it to the province
+			Province province = new Province(1, latitude, longitude);
+			country.addProvince(province);
+		}
+	}
 	
 	
 	

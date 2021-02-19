@@ -17,8 +17,7 @@ public class Province {
 		
 	}
 
-	public Province(int UID, String name, Double Lat, Double Long, 
-							CoronavirusStats CoronavirusStats) {
+	public Province(int UID, String name, Double Lat, Double Long, CoronavirusStats CoronavirusStats) {
 		this.name = name;
 		this.UID = UID;
 		this.Lat = Lat;
@@ -56,10 +55,9 @@ public class Province {
 	public CoronavirusStats getCoronavirusStats() {
 		return CoronavirusStats;
 	}
+
 	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
 		CoronavirusStats = coronavirusStats;
 	}
-	
-	
-	
+		
 }

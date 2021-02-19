@@ -1,12 +1,12 @@
 package com.nick.CoronavirusTracker.models;
 
-import java.time.*;
 
 public class CoronavirusStats {
 
-	private LocalDate date;
+	// private LocalDate date;
+	// private HashMap<LocalDate, Integer> casesRecorded = new HashMap<LocalDate, Integer>();
 	private int cases;
-	// private int yesterdayCases;
+	private int yesterdayCases;
 	private int deaths;
 	// Recovered?
 	
@@ -15,10 +15,10 @@ public class CoronavirusStats {
 	}
 
 
-	public CoronavirusStats(LocalDate date, int cases, int deaths) {
-		this.date = date;
+	public CoronavirusStats(int cases, int yesterdayCases, int deaths) {
 		this.cases = cases;
 		this.deaths = deaths;
+		this.yesterdayCases = yesterdayCases;
 	}
 
 
@@ -31,13 +31,13 @@ public class CoronavirusStats {
 	}
 
 
-	public LocalDate getDate() {
-		return date;
+	public int getYesterdayCases() {
+		return yesterdayCases;
 	}
 
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setYesterdayCases(int yesterdayCases) {
+		this.yesterdayCases = yesterdayCases;
 	}
 
 
@@ -50,5 +50,4 @@ public class CoronavirusStats {
 		this.deaths = deaths;
 	}
 
-	
 }
