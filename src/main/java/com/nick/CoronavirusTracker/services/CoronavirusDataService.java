@@ -67,7 +67,6 @@ public class CoronavirusDataService {
 		World world = new World(1, "Earth");
 		
 		for (CSVRecord record : records) {
-			
 			generateNewCountry(world, record);
 			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
 			
@@ -82,21 +81,18 @@ public class CoronavirusDataService {
 	
 	private void generateNewCountry(World world, CSVRecord record) {
 		String countryRegionName = record.get("Country_Region");
-		boolean isAvailable = true;
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
 		
-		for (Country_Region country : world.getCountry_Regions())
+		for (Country_Region countries : world.getCountry_Regions())
 		{
-			if (country.getName().equals(countryRegionName)) {
-				isAvailable = false;
+			if (countries.getName().equals(countryRegionName)) {
+				break;
+			} else {
+				// TODO: make ID generator
+				Country_Region country = new Country_Region(1, countryRegionName);
+				world.addCountry(country);
 			}
-		}
-		
-		if (isAvailable = true){
-			// TODO: make ID generator
-			Country_Region country = new Country_Region(1, countryRegionName);
-			world.addCountry(country);
 		}
 	
 	}
@@ -165,7 +161,7 @@ public class CoronavirusDataService {
 	
 	private CoronavirusStats getCoronavirusStats(CSVRecord record) {
 		int cases = Integer.parseInt(record.get(record.size() - 1));
-		int yesterdayCases = Integer.parseInt(record.get(record.size() - 1));
+		int yesterdayCases = Integer.parseInt(record.get(record.size() - 2));
 		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
 		return stats;
 	}

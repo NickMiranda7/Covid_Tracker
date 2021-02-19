@@ -3,9 +3,6 @@ package com.nick.CoronavirusTracker.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-
-@Entity
 public class World {
 
 	private int uid;

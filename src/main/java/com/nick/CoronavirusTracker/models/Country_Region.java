@@ -9,7 +9,7 @@ public class Country_Region {
 	private String name;
 	private List<Province> Provinces;
 	private List<States> States;
-	private CoronavirusStats CoronavirusStats;
+	// private CoronavirusStats CoronavirusStats;
 	
 	
 	
@@ -54,13 +54,13 @@ public class Country_Region {
 	}
 	
 
-	public CoronavirusStats getCoronavirusStats() {
-		return CoronavirusStats;
-	}
-
-	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
-		CoronavirusStats = coronavirusStats;
-	}
+//	public CoronavirusStats getCoronavirusStats() {
+//		return CoronavirusStats;
+//	}
+//
+//	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
+//		CoronavirusStats = coronavirusStats;
+//	}
 
 	public void addProvince(Province province) {
 		this.Provinces.add(province); 
