@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.nick.CoronavirusTracker.helpers.HttpHelpers;
+import com.nick.CoronavirusTracker.helpers.ModelHelpers;
 import com.nick.CoronavirusTracker.models.LocationStats;
 import com.nick.CoronavirusTracker.models.World;
 import com.nick.CoronavirusTracker.models.CoronavirusStats;
@@ -30,6 +31,8 @@ public class CoronavirusDataService {
 
 	@Autowired
 	private HttpHelpers helper;
+	@Autowired
+	private ModelHelpers modelHelper;
 	
 	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
 	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
@@ -68,31 +71,31 @@ public class CoronavirusDataService {
 		
 		for (CSVRecord record : records) {
 			generateNewCountry(world, record);
-			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
 			
-			generateNewState(country, record);
-			States state = country.getStates().get(country.getStates().size() -1);
+			//Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
 			
-			generateNewCounty(state, record);
+			//generateNewState(country, record);
+			//States state = country.getStates().get(country.getStates().size() -1);
+			
+			//generateNewCounty(state, record);
 			
 		}	
 		return world;
 	}
 	
+
 	private void generateNewCountry(World world, CSVRecord record) {
 		String countryRegionName = record.get("Country_Region");
+		// TODO: make ID generator
+		Country_Region country = new Country_Region(1, countryRegionName);
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
+		boolean notAvailable = modelHelper.checkWorldContainsCountry(world, countryRegionName);			
 		
-		for (Country_Region countries : world.getCountry_Regions())
-		{
-			if (countries.getName().equals(countryRegionName)) {
-				break;
-			} else {
-				// TODO: make ID generator
-				Country_Region country = new Country_Region(1, countryRegionName);
-				world.addCountry(country);
-			}
+		if (notAvailable) {
+			//do nothing
+		} else {
+			world.addCountry(country);
 		}
 	
 	}
@@ -122,7 +125,7 @@ public class CoronavirusDataService {
 		Double longitude = Double.parseDouble(record.get("Long_"));
 		boolean isAvailable = true;
 		
-		for(USAStateCounty county : state.getStateCounty())
+		for(USAStateCounty county : state.getStateCounties())
 		{
 			if (county.getName().equals(countyName)) {
 				isAvailable = false;

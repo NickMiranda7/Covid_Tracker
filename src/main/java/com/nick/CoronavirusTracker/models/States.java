@@ -8,7 +8,7 @@ public class States {
 	private int UID;
 	private String name;
 	
-	private List<USAStateCounty> USAStateCounty;
+	private List<USAStateCounty> USAStateCounties;
 
 	
 	public States() {
@@ -18,7 +18,7 @@ public class States {
 	public States(int UID, String name) {
 		this.UID = UID;
 		this.name = name;
-		this.USAStateCounty = new ArrayList<USAStateCounty>();
+		this.USAStateCounties = new ArrayList<USAStateCounty>();
 	}
 
 	public int getUID() {
@@ -37,15 +37,15 @@ public class States {
 		this.name = name;
 	}
 
-	public List<USAStateCounty> getStateCounty() {
-		return USAStateCounty;
+	public List<USAStateCounty> getStateCounties() {
+		return USAStateCounties;
 	}
 
 	public void setStateCounty(List<USAStateCounty> stateCounty) {
-		this.USAStateCounty = stateCounty;
+		this.USAStateCounties = stateCounty;
 	}
 
 	public void addStateCounty(USAStateCounty stateCounty) {
-		this.USAStateCounty.add(stateCounty);
+		this.USAStateCounties.add(stateCounty);
 	}
 }
