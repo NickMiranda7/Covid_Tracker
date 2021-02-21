@@ -3,7 +3,7 @@ package com.nick.CoronavirusTracker.models;
 
 public class Province {
 
-	private int UID;
+	private String UID;
 	private String name;
 	private Double Lat;
 	private Double Long;
@@ -17,7 +17,7 @@ public class Province {
 		
 	}
 
-	public Province(int UID, String name, Double Lat, Double Long, CoronavirusStats CoronavirusStats) {
+	public Province(String UID, String name, Double Lat, Double Long, CoronavirusStats CoronavirusStats) {
 		this.name = name;
 		this.UID = UID;
 		this.Lat = Lat;
@@ -33,10 +33,10 @@ public class Province {
 		this.name = name;
 	}
 
-	public int getUID() {
+	public String getUID() {
 		return UID;
 	}
-	public void setUID(int UID) {
+	public void setUID(String UID) {
 		this.UID = UID;
 	}
 	public Double getLat() {

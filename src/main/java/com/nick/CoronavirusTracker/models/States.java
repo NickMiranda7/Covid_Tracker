@@ -5,7 +5,7 @@ import java.util.List;
 
 public class States {
 
-	private int UID;
+	private String UID;
 	private String name;
 	
 	private List<USAStateCounty> USAStateCounties;
@@ -15,17 +15,17 @@ public class States {
 		
 	}
 	
-	public States(int UID, String name) {
+	public States(String UID, String name) {
 		this.UID = UID;
 		this.name = name;
 		this.USAStateCounties = new ArrayList<USAStateCounty>();
 	}
 
-	public int getUID() {
+	public String getUID() {
 		return UID;
 	}
 
-	public void setUID(int uID) {
+	public void setUID(String uID) {
 		UID = uID;
 	}
 

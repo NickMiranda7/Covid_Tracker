@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -43,7 +44,7 @@ public class CoronavirusDataService {
 	@PostConstruct
 	// schedules when this method will run
 	@Scheduled(cron = "* * 1 * * *")
-	public World fetchVirusData() throws IOException, InterruptedException {
+	public World fetchVirusData() throws IOException, InterruptedException  {
 
 		//pull the data from any http file
 		HttpClient httpClient = helper.createHttpClient();
@@ -68,8 +69,8 @@ public class CoronavirusDataService {
 	}
 	
 	private World generateWorld(Iterable<CSVRecord> USArecords, Iterable<CSVRecord> WorldRecords){
-		
-		World world = new World(1, "Earth");
+		String uniqueID = UUID.randomUUID().toString();
+		World world = new World(uniqueID, "Earth");
 		
 		for (CSVRecord record : USArecords) {
 			
@@ -89,8 +90,9 @@ public class CoronavirusDataService {
 	private void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countryRegionName = record.get("Country_Region");
-		// TODO: make ID generator
-		Country_Region country = new Country_Region(1, countryRegionName);
+	
+		String uniqueID = UUID.randomUUID().toString();
+		Country_Region country = new Country_Region(uniqueID, countryRegionName);
 		
 		boolean notAvailable = modelHelper.checkWorldContainsCountry(world, countryRegionName);			
 		
@@ -105,8 +107,9 @@ public class CoronavirusDataService {
 	private void generateNewState(Country_Region country, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String stateName = record.get("Province_State");
-		// TODO: make ID generator
-		States state = new States(1, stateName);
+		
+		String uniqueID = UUID.randomUUID().toString();
+		States state = new States(uniqueID, stateName);
 		
 		boolean notAvailable = modelHelper.checkCountryContainsState(country, stateName);
 		
@@ -125,9 +128,9 @@ public class CoronavirusDataService {
 		Double latitude = Double.parseDouble(record.get("Lat"));
 		Double longitude = Double.parseDouble(record.get("Long_"));
 		
-		// TODO: make ID generator
 		CoronavirusStats stats = getCoronavirusStats(record);
-		USAStateCounty county = new USAStateCounty(1, countyName, latitude, longitude, stats);
+		String uniqueID = UUID.randomUUID().toString();
+		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, stats);
 		
 		boolean isAvailable = modelHelper.checkStateContainsCounty(state, countyName);
 		

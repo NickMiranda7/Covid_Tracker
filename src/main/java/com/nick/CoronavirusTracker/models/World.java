@@ -5,7 +5,7 @@ import java.util.List;
 
 public class World {
 
-	private int uid;
+	private String uid;
 	private String name;
 	private List<Country_Region> country_Regions;
 
@@ -13,7 +13,7 @@ public class World {
 
 	}
 
-	public World(int uid, String name) {
+	public World(String uid, String name) {
 		
 		this.uid = uid;
 		this.name = name;
@@ -21,11 +21,11 @@ public class World {
 	}
 
 
-	public int getUID() {
+	public String getUID() {
 		return uid;
 	}
 
-	public void setUID(int uID) {
+	public void setUID(String uID) {
 		uid = uID;
 	}
 
