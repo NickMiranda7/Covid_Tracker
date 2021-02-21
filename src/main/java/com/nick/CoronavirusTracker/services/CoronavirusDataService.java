@@ -44,40 +44,42 @@ public class CoronavirusDataService {
 	// schedules when this method will run
 	@Scheduled(cron = "* * 1 * * *")
 	public World fetchVirusData() throws IOException, InterruptedException {
-		// to overwrite with updated stats
-		List<LocationStats> newStats = new ArrayList<>();
 
-		//OOP not from tutorial
+		//pull the data from any http file
 		HttpClient httpClient = helper.createHttpClient();
-		HttpRequest httpRequest = helper.createHttpRequest(VIRUS_DATA_USA);
+		HttpRequest httpRequestUSA = helper.createHttpRequest(VIRUS_DATA_USA);
+		HttpRequest httpRequestWORLD = helper.createHttpRequest(VIRUS_DATA_WORLD);
 		
 		// client sends request then takes the body and returns it as a string
 		@SuppressWarnings("unchecked")
-		HttpResponse<String> httpResponse = helper.getHttpResponseInStrings(httpClient, httpRequest);
-
+		HttpResponse<String> httpResponseUSA = helper.getHttpResponseInStrings(httpClient, httpRequestUSA);
+		@SuppressWarnings("unchecked")
+		HttpResponse<String> httpResponseWORLD = helper.getHttpResponseInStrings(httpClient, httpRequestWORLD);
 		// string reader is an instance of reader which parses through string
-		StringReader csvBody = helper.csvBodyReader(httpResponse);
+		StringReader csvBodyUSA = helper.csvBodyReader(httpResponseUSA);
+		StringReader csvBodyWORLD = helper.csvBodyReader(httpResponseWORLD);
 		
-		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBody);
+		Iterable<CSVRecord> USArecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyUSA);
+		Iterable<CSVRecord> WORLDrecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyWORLD);
 		
-		World world = generateWorld(records);
+		World world = generateWorld(USArecords, WORLDrecords);
 		return world;
 
 	}
 	
-	private World generateWorld(Iterable<CSVRecord> records){
+	private World generateWorld(Iterable<CSVRecord> USArecords, Iterable<CSVRecord> WorldRecords){
 		
 		World world = new World(1, "Earth");
 		
-		for (CSVRecord record : records) {
+		for (CSVRecord record : USArecords) {
+			
 			generateNewCountry(world, record);
+			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
 			
-			//Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
+			generateNewState(country, record);
+			States state = country.getStates().get(country.getStates().size() -1);
 			
-			//generateNewState(country, record);
-			//States state = country.getStates().get(country.getStates().size() -1);
-			
-			//generateNewCounty(state, record);
+			generateNewCounty(state, record);
 			
 		}	
 		return world;
@@ -85,10 +87,10 @@ public class CoronavirusDataService {
 	
 
 	private void generateNewCountry(World world, CSVRecord record) {
+		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countryRegionName = record.get("Country_Region");
 		// TODO: make ID generator
 		Country_Region country = new Country_Region(1, countryRegionName);
-		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
 		boolean notAvailable = modelHelper.checkWorldContainsCountry(world, countryRegionName);			
 		
@@ -101,43 +103,40 @@ public class CoronavirusDataService {
 	}
 	
 	private void generateNewState(Country_Region country, CSVRecord record) {
+		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String stateName = record.get("Province_State");
-		boolean isAvailable = true;
+		// TODO: make ID generator
+		States state = new States(1, stateName);
 		
-		for(States state : country.getStates()) 
-		{
-			if (state.getName().equals(stateName)) {
-				isAvailable = false;
-			}
-		}
+		boolean notAvailable = modelHelper.checkCountryContainsState(country, stateName);
 		
-		if (isAvailable = true) {
-			// TODO: make ID generator
-			States state = new States(1, stateName);
+		if(notAvailable) {
+			//do nothing
+		} else {
 			country.addState(state);
 		}
 		
 	}
 	
+	
 	private void generateNewCounty(States state, CSVRecord record) {
+		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countyName = record.get("Admin2");
 		Double latitude = Double.parseDouble(record.get("Lat"));
 		Double longitude = Double.parseDouble(record.get("Long_"));
-		boolean isAvailable = true;
 		
-		for(USAStateCounty county : state.getStateCounties())
-		{
-			if (county.getName().equals(countyName)) {
-				isAvailable = false;
-			}
+		// TODO: make ID generator
+		CoronavirusStats stats = getCoronavirusStats(record);
+		USAStateCounty county = new USAStateCounty(1, countyName, latitude, longitude, stats);
+		
+		boolean isAvailable = modelHelper.checkStateContainsCounty(state, countyName);
+		
+		if(isAvailable ) {
+			//do nothing
+		} else {
+			state.addStateCounty(county);
 		}
 		
-		if(isAvailable = true) {
-			// TODO: generate stats and add it to the county
-			CoronavirusStats stats = getCoronavirusStats(record);
-			USAStateCounty stateCounty = new USAStateCounty(1, countyName, latitude, longitude, stats);
-			state.addStateCounty(stateCounty);
-		}
 		
 	}
 	
