@@ -27,6 +27,7 @@ import com.nick.CoronavirusTracker.models.Country_Region;
 import com.nick.CoronavirusTracker.models.Province;
 import com.nick.CoronavirusTracker.models.States;
 import com.nick.CoronavirusTracker.models.USAStateCounty;
+import com.nick.CoronavirusTracker.models.Header;
 
 @Service
 public class CoronavirusDataService {
@@ -38,37 +39,46 @@ public class CoronavirusDataService {
 	@Autowired
 	private CSVHelpers CSVHelper;
 	
-	
+	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
+	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+
 	// this annotation executes this method whenever the application is started
 	@PostConstruct
 	// schedules when this method will run
 	@Scheduled(cron = "* * 1 * * *")
-	public World fetchVirusData() throws IOException, InterruptedException  {
+	public void fetchVirusData() throws IOException, InterruptedException  {
 
 //		Iterable<CSVRecord> USARecords = CSVHelper.fetchUSAData();
 //		Iterable<CSVRecord> WORLDrecords = CSVHelper.fetchWorldData();
 	
-		World world = generateWorld();
-		return world;
-
-	}
-	
-	private World generateWorld() throws IOException, InterruptedException{
-		
-		String uniqueID = UUID.randomUUID().toString();
-		World world = new World(uniqueID, "Earth");
+		World worldUS = generateWorld("EarthUS");
 		
 		//fetches all US data
-		Iterable<CSVRecord> USARecords = CSVHelper.fetchUSAData();
-		iterateUSARecord(USARecords, world);
+		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA);
+		//worldUS.setHeader(CSVHelper.getHeader(usRecords.getHeaderNames());
+		//List<String> headers = parser.getHeaderNames();
+		iterateUSARecord(usRecords, worldUS);
+				
+		World world = generateWorld("Earth");
+		//fetches all US data
+		Iterable<CSVRecord> worldRecords = fetchCVSData(VIRUS_DATA_WORLD);
+		iterateUSARecord(worldRecords, world);
 		
+	}
+	
+	private World generateWorld(String name){
 		
+		String uniqueID = UUID.randomUUID().toString();
+		World world = new World(uniqueID, name);
+	
 		return world;
 	}
 	
-	private void iterateUSARecord(Iterable<CSVRecord> USArecords, World world) {
+	
+	//TODO:Can be made into one method
+	private void iterateUSARecord(Iterable<CSVRecord> records, World world) {
 		
-		for (CSVRecord record : USArecords) {
+		for (CSVRecord record : records) {
 			
 			generateNewCountry(world, record);
 			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
@@ -78,26 +88,22 @@ public class CoronavirusDataService {
 			
 			generateNewCounty(state, record);
 			
+			
 		}	
 	}
 
 	private void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countryRegionName = record.get("Country_Region");
-		String countryRegionName2 = record.get("Country/Region");
-		System.out.println(countryRegionName2);
+		// String countryRegionName2 = record.get("Country/Region");
+		// System.out.println(countryRegionName2);
 		
 		String uniqueID = UUID.randomUUID().toString();
-		Country_Region country = new Country_Region(uniqueID, countryRegionName);
+		Country_Region country = new Country_Region(uniqueID, countryRegionName);		
 		
-		boolean notAvailable = modelHelper.checkWorldContainsCountry(world, countryRegionName);			
-		
-		if (notAvailable) {
-			//do nothing
-		} else {
+		if (!modelHelper.checkWorldContainsCountry(world, countryRegionName)) {
 			world.addCountry(country);
 		}
-	
 	}
 	
 	private void generateNewState(Country_Region country, CSVRecord record) {
@@ -165,6 +171,22 @@ public class CoronavirusDataService {
 		int yesterdayCases = Integer.parseInt(record.get(record.size() - 2));
 		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
 		return stats;
+	}
+	
+	public Iterable<CSVRecord> fetchCVSData(String csvData) throws IOException, InterruptedException {
+		
+		//pull the data from http file
+		HttpClient httpClient = helper.createHttpClient();
+		HttpRequest httpRequest = helper.createHttpRequest(csvData);
+		
+		// client sends request then takes the body and returns it as a string
+		@SuppressWarnings("unchecked")
+		HttpResponse<String> httpResponse = helper.getHttpResponseInStrings(httpClient, httpRequest);
+		
+		StringReader csvBody = CSVHelper.csvBodyReader(httpResponse);
+		Iterable<CSVRecord> records = CSVHelper.parseCSVBody(csvBody);
+	
+		return records;
 	}
 	
 	

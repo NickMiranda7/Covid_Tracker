@@ -8,6 +8,7 @@ public class World {
 	private String uid;
 	private String name;
 	private List<Country_Region> country_Regions;
+	private Header header;
 
 	public World() {
 
@@ -47,5 +48,13 @@ public class World {
 	
 	public void addCountry(Country_Region country_Region) {
 		this.country_Regions.add(country_Region); 
+	}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
 	}
 }

@@ -31,8 +31,5 @@ public class HttpHelpers {
 		return (httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString())); 
 	}
 	
-	public StringReader csvBodyReader(HttpResponse<String> httpResponse) {
-		StringReader csvBody = new StringReader(httpResponse.body());
-		return csvBody;
-	}
+
 }

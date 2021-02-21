@@ -18,7 +18,7 @@ public class CoronavirusTrackerController {
 	@GetMapping("")
 	private String landing(Model model) throws IOException, InterruptedException {
 		
-		model.addAttribute("World", coronavirusDataService.fetchVirusData());
+		//model.addAttribute("World", coronavirusDataService.fetchVirusData());
 		
 		return "landingPage.jsp";
 	}

@@ -11,48 +11,38 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.nick.CoronavirusTracker.models.Header;
+
 @Component
 public class CSVHelpers {
 	
 	@Autowired
 	private HttpHelpers helper;
 	
-	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
-	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-	
-	
-	public Iterable<CSVRecord> fetchUSAData() throws IOException, InterruptedException {
-		
-		//pull the data from http file
-		HttpClient httpClient = helper.createHttpClient();
-		HttpRequest httpRequestUSA = helper.createHttpRequest(VIRUS_DATA_USA);
-		
-		// client sends request then takes the body and returns it as a string
-		@SuppressWarnings("unchecked")
-		HttpResponse<String> httpResponseUSA = helper.getHttpResponseInStrings(httpClient, httpRequestUSA);
-		
-		// string reader is an instance of reader which parses through string
-		StringReader csvBodyUSA = helper.csvBodyReader(httpResponseUSA);
-		
-		Iterable<CSVRecord> USArecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyUSA);
-		return USArecords;
+	public StringReader csvBodyReader(HttpResponse<String> httpResponse) {
+		StringReader csvBody = new StringReader(httpResponse.body());
+		return csvBody;
 	}
 	
-	public Iterable<CSVRecord> fetchWorldData() throws IOException, InterruptedException {
+	public Iterable<CSVRecord> parseCSVBody(StringReader csvBody) throws IOException{
+	
+	//Figure out a way to get CSV header and save it...(can be one long string or separated)
+	return CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBody);
+	}
+/*
+public Header getHeader(Iterable<CSVRecord> usRecords) {
 		
-		//pull the data from http file
-		HttpClient httpClient = helper.createHttpClient();
-		HttpRequest httpRequestWORLD = helper.createHttpRequest(VIRUS_DATA_WORLD);
 		
-		// client sends request then takes the body and returns it as a string
-		@SuppressWarnings("unchecked")
-		HttpResponse<String> httpResponseWORLD = helper.getHttpResponseInStrings(httpClient, httpRequestWORLD);
-		
-		// string reader is an instance of reader which parses through string
-		StringReader csvBodyWORLD = helper.csvBodyReader(httpResponseWORLD);
-		
-		Iterable<CSVRecord> WORLDrecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyWORLD);
-		return WORLDrecords;
+	//	Header header = new();
+		return header;
 	}
 	
-}
+
+}*/
+
+
+//country,state,city,town
+//parse string
+//Object header
+//country =country
+//country =state

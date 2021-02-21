@@ -26,6 +26,7 @@
 		<p>New cases reported since yesterday: <fmt:formatNumber value="${locationDataTotal.changesSinceLastDayTotal}"/> </p>
 	</div>
 	
+	
 	<div>
 		<table class="table table-hover" id="main-table">
 			<thead>
