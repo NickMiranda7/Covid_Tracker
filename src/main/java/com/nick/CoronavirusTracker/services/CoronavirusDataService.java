@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.nick.CoronavirusTracker.helpers.CSVHelpers;
 import com.nick.CoronavirusTracker.helpers.HttpHelpers;
 import com.nick.CoronavirusTracker.helpers.ModelHelpers;
 import com.nick.CoronavirusTracker.models.LocationStats;
@@ -34,10 +35,8 @@ public class CoronavirusDataService {
 	private HttpHelpers helper;
 	@Autowired
 	private ModelHelpers modelHelper;
-	
-	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
-	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-	
+	@Autowired
+	private CSVHelpers CSVHelper;
 	
 	
 	// this annotation executes this method whenever the application is started
@@ -46,31 +45,28 @@ public class CoronavirusDataService {
 	@Scheduled(cron = "* * 1 * * *")
 	public World fetchVirusData() throws IOException, InterruptedException  {
 
-		//pull the data from any http file
-		HttpClient httpClient = helper.createHttpClient();
-		HttpRequest httpRequestUSA = helper.createHttpRequest(VIRUS_DATA_USA);
-		HttpRequest httpRequestWORLD = helper.createHttpRequest(VIRUS_DATA_WORLD);
-		
-		// client sends request then takes the body and returns it as a string
-		@SuppressWarnings("unchecked")
-		HttpResponse<String> httpResponseUSA = helper.getHttpResponseInStrings(httpClient, httpRequestUSA);
-		@SuppressWarnings("unchecked")
-		HttpResponse<String> httpResponseWORLD = helper.getHttpResponseInStrings(httpClient, httpRequestWORLD);
-		// string reader is an instance of reader which parses through string
-		StringReader csvBodyUSA = helper.csvBodyReader(httpResponseUSA);
-		StringReader csvBodyWORLD = helper.csvBodyReader(httpResponseWORLD);
-		
-		Iterable<CSVRecord> USArecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyUSA);
-		Iterable<CSVRecord> WORLDrecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyWORLD);
-		
-		World world = generateWorld(USArecords, WORLDrecords);
+//		Iterable<CSVRecord> USARecords = CSVHelper.fetchUSAData();
+//		Iterable<CSVRecord> WORLDrecords = CSVHelper.fetchWorldData();
+	
+		World world = generateWorld();
 		return world;
 
 	}
 	
-	private World generateWorld(Iterable<CSVRecord> USArecords, Iterable<CSVRecord> WorldRecords){
+	private World generateWorld() throws IOException, InterruptedException{
+		
 		String uniqueID = UUID.randomUUID().toString();
 		World world = new World(uniqueID, "Earth");
+		
+		//fetches all US data
+		Iterable<CSVRecord> USARecords = CSVHelper.fetchUSAData();
+		iterateUSARecord(USARecords, world);
+		
+		
+		return world;
+	}
+	
+	private void iterateUSARecord(Iterable<CSVRecord> USArecords, World world) {
 		
 		for (CSVRecord record : USArecords) {
 			
@@ -83,9 +79,7 @@ public class CoronavirusDataService {
 			generateNewCounty(state, record);
 			
 		}	
-		return world;
 	}
-	
 
 	private void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
