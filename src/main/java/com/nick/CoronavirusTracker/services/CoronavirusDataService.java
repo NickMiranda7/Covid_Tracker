@@ -84,7 +84,9 @@ public class CoronavirusDataService {
 	private void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countryRegionName = record.get("Country_Region");
-	
+		String countryRegionName2 = record.get("Country/Region");
+		System.out.println(countryRegionName2);
+		
 		String uniqueID = UUID.randomUUID().toString();
 		Country_Region country = new Country_Region(uniqueID, countryRegionName);
 		
