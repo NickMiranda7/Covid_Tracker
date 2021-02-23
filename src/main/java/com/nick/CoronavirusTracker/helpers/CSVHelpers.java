@@ -29,6 +29,7 @@ public class CSVHelpers {
 	//Figure out a way to get CSV header and save it...(can be one long string or separated)
 	return CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBody);
 	}
+}
 /*
 public Header getHeader(Iterable<CSVRecord> usRecords) {
 		
