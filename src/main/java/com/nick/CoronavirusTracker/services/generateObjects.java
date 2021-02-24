@@ -1,5 +1,6 @@
 package com.nick.CoronavirusTracker.services;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.csv.CSVRecord;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.nick.CoronavirusTracker.helpers.ModelHelpers;
 import com.nick.CoronavirusTracker.models.CoronavirusStats;
 import com.nick.CoronavirusTracker.models.Country_Region;
+import com.nick.CoronavirusTracker.models.Header;
 import com.nick.CoronavirusTracker.models.States;
 import com.nick.CoronavirusTracker.models.USAStateCounty;
 import com.nick.CoronavirusTracker.models.World;
@@ -58,7 +60,6 @@ public class generateObjects {
 		
 	}
 	
-	
 	public void generateNewCounty(States state, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countyName = record.get("Admin2");
@@ -84,7 +85,18 @@ public class generateObjects {
 		int yesterdayCases = Integer.parseInt(record.get(record.size() - 2));
 		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
 		return stats;
-	}	
+	}
+	
+	public Header generateHeader(Set<String> headers) {
+		/*String country_region;
+		String state_province;
+		String lat;
+		String long;
+		*/
+		
+		
+		return new Header(/*country_region, state_province, lat, long*/);
+	}
 		
 //	private void generateNewProvince(Country_Region country, CSVRecord record) { 
 //		String provinceName = record.get("Province/State");

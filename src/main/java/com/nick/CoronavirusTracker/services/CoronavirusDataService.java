@@ -7,12 +7,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -48,8 +50,6 @@ public class CoronavirusDataService {
 	@Scheduled(cron = "* * 1 * * *")
 	public void fetchVirusData() throws IOException, InterruptedException  {
 
-//		Iterable<CSVRecord> USARecords = CSVHelper.fetchUSAData();
-//		Iterable<CSVRecord> WORLDrecords = CSVHelper.fetchWorldData();
 	
 		World worldUS = objectGenerator.generateWorld("EarthUS");
 		
@@ -57,18 +57,32 @@ public class CoronavirusDataService {
 		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA);
 		//worldUS.setHeader(CSVHelper.getHeader(usRecords.getHeaderNames());
 		//List<String> headers = parser.getHeaderNames();
-		iterateUSARecord(usRecords, worldUS);
-				
+		
+		
+		iterateRecord(usRecords, worldUS);
+		
+		
 		World world = objectGenerator.generateWorld("Earth");
-		//fetches all US data
+		
+		//fetches all World data
 		Iterable<CSVRecord> worldRecords = fetchCVSData(VIRUS_DATA_WORLD);
-		iterateUSARecord(worldRecords, world);
+		//worldUS.setHeader(CSVHelper.getHeader(usRecords.getHeaderNames());
+		//List<String> headers = parser.getHeaderNames();
+		
+		iterateRecord(worldRecords, world);
 		
 	}
 
 	
 	//TODO:Can be made into one method hint:parameters
-	private void iterateUSARecord(Iterable<CSVRecord> records, World world) {
+	private void iterateRecord(Iterable<CSVRecord> records, World world) {
+		
+		Set<String> headers = records.iterator().next().toMap().keySet();
+		// iterate throug header
+		// get fields
+		// set to variables
+		// create header objects with variables in constuctor 
+		world.setHeader(objectGenerator.generateHeader(headers));
 		
 		for (CSVRecord record : records) {
 			
@@ -96,7 +110,7 @@ public class CoronavirusDataService {
 		
 		StringReader csvBody = CSVHelper.csvBodyReader(httpResponse);
 		Iterable<CSVRecord> records = CSVHelper.parseCSVBody(csvBody);
-	
+		
 		return records;
 	}
 	
