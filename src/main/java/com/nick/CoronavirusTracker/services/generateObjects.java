@@ -1,5 +1,6 @@
 package com.nick.CoronavirusTracker.services;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
 
@@ -93,7 +94,13 @@ public class generateObjects {
 		String lat;
 		String long;
 		*/
-		
+
+		Iterator<String> itr = headers.iterator();
+		while(itr.hasNext()){
+			
+			System.out.println(itr.next());
+				
+		}
 		
 		return new Header(/*country_region, state_province, lat, long*/);
 	}

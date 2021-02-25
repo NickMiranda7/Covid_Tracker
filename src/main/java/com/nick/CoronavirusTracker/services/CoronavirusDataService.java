@@ -78,7 +78,8 @@ public class CoronavirusDataService {
 	private void iterateRecord(Iterable<CSVRecord> records, World world) {
 		
 		Set<String> headers = records.iterator().next().toMap().keySet();
-		// iterate throug header
+		objectGenerator.generateHeader(headers);
+		// iterate through header
 		// get fields
 		// set to variables
 		// create header objects with variables in constuctor 
