@@ -21,90 +21,101 @@ public class generateObjects {
 
 	@Autowired
 	private ModelHelpers modelHelper;
-	
-	public World generateWorld(String name){
-		
+
+	public World generateWorld(String name) {
+
 		String uniqueID = UUID.randomUUID().toString();
 		World world = new World(uniqueID, name);
-	
+
 		return world;
 	}
-	
+
 	public void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countryRegionName = record.get("Country_Region");
 		// String countryRegionName2 = record.get("Country/Region");
 		// System.out.println(countryRegionName2);
-		
+
 		String uniqueID = UUID.randomUUID().toString();
-		Country_Region country = new Country_Region(uniqueID, countryRegionName);		
-		
+		Country_Region country = new Country_Region(uniqueID, countryRegionName);
+
 		if (!modelHelper.checkWorldContainsCountry(world, countryRegionName)) {
 			world.addCountry(country);
 		}
 	}
-	
+
 	public void generateNewState(Country_Region country, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String stateName = record.get("Province_State");
-		
+
 		String uniqueID = UUID.randomUUID().toString();
 		States state = new States(uniqueID, stateName);
-		
+
 		boolean notAvailable = modelHelper.checkCountryContainsState(country, stateName);
-		
-		if(notAvailable) {
-			//do nothing
+
+		if (notAvailable) {
+			// do nothing
 		} else {
 			country.addState(state);
 		}
-		
-	}
+
+	}	
 	
+	/*
+	 * public void generateNewProvince(Country_Region country, CSVRecord record) {
+	 * // TODO: Create helper attribute to contain CSV file headings -- do this last
+	 * String provinceName = record.get("Province_State");
+	 * 
+	 * String uniqueID = UUID.randomUUID().toString(); States province = new
+	 * States(uniqueID, provinceName);
+	 * 
+	 * boolean notAvailable = modelHelper.checkCountryContainsState(country,
+	 * provinceName);
+	 * 
+	 * if (notAvailable) { // do nothing } else { country.addProvince(province); }
+	 * 
+	 * }
+	 */
+
 	public void generateNewCounty(States state, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		String countyName = record.get("Admin2");
 		Double latitude = Double.parseDouble(record.get("Lat"));
 		Double longitude = Double.parseDouble(record.get("Long_"));
-		
+
 		CoronavirusStats stats = getCoronavirusStats(record);
 		String uniqueID = UUID.randomUUID().toString();
 		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, stats);
-		
+
 		boolean isAvailable = modelHelper.checkStateContainsCounty(state, countyName);
-		
-		if(isAvailable ) {
-			//do nothing
+
+		if (isAvailable) {
+			// do nothing
 		} else {
 			state.addStateCounty(county);
 		}
-		
+
 	}
-	
+
 	private CoronavirusStats getCoronavirusStats(CSVRecord record) {
 		int cases = Integer.parseInt(record.get(record.size() - 1));
 		int yesterdayCases = Integer.parseInt(record.get(record.size() - 2));
 		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
 		return stats;
 	}
-	
-	public Header generateHeader(Set<String> headers) {
-		/*String country_region;
-		String state_province;
-		String lat;
-		String long;
-		*/
 
-		Iterator<String> itr = headers.iterator();
-		while(itr.hasNext()){
-			
-			System.out.println(itr.next());
-				
-		}
-		
-		return new Header(/*country_region, state_province, lat, long*/);
-	}
-		
+	/*
+	 * public Header generateHeader(Set<String> headers) { String country_region;
+	 * String state_province; String lat; String long;
+	 * 
+	 * 
+	 * Iterator<String> itr = headers.iterator(); while(itr.hasNext()){
+	 * 
+	 * String headerValue = itr.next(); if(headerValue.matches(regex)) }
+	 * 
+	 * return new Header(country_region, state_province, lat, long); }
+	 */
+
 //	private void generateNewProvince(Country_Region country, CSVRecord record) { 
 //		String provinceName = record.get("Province/State");
 //		Double latitude = Double.parseDouble(record.get("Lat"));
@@ -125,6 +136,5 @@ public class generateObjects {
 //			country.addProvince(province);
 //		}
 //	}
-		
-		
+
 }

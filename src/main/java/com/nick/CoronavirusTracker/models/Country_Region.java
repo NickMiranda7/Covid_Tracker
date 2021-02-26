@@ -49,8 +49,8 @@ public class Country_Region {
 		return States;
 	}
 
-	public void setStates(List<States> states) {
-		States = states;
+	public void setStates(List<States> states_Province) {
+		States = states_Province;
 	}
 	
 

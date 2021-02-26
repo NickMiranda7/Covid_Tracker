@@ -3,7 +3,7 @@ package com.nick.CoronavirusTracker.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class States {
+public class States{
 
 	private String UID;
 	private String name;

@@ -75,15 +75,15 @@ public class CoronavirusDataService {
 
 	
 	//TODO:Can be made into one method hint:parameters
-	private void iterateRecord(Iterable<CSVRecord> records, World world) {
+	private World iterateRecord(Iterable<CSVRecord> records, World world) {
 		
 		Set<String> headers = records.iterator().next().toMap().keySet();
-		objectGenerator.generateHeader(headers);
+		//objectGenerator.generateHeader(headers);
 		// iterate through header
 		// get fields
 		// set to variables
 		// create header objects with variables in constuctor 
-		world.setHeader(objectGenerator.generateHeader(headers));
+	//	world.setHeader(objectGenerator.generateHeader(headers));
 		
 		for (CSVRecord record : records) {
 			
@@ -97,6 +97,7 @@ public class CoronavirusDataService {
 			
 			
 		}	
+		return world;
 	}
 	
 	public Iterable<CSVRecord> fetchCVSData(String csvData) throws IOException, InterruptedException {
