@@ -1,8 +1,11 @@
 package com.nick.CoronavirusTracker.services;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,7 @@ public class generateObjects {
 
 	public void generateNewCountry(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
-		String countryRegionName = record.get("Country_Region");
+		String countryRegionName = record.get(world.getHeader().getCountry_region());
 		// String countryRegionName2 = record.get("Country/Region");
 		// System.out.println(countryRegionName2);
 
@@ -44,21 +47,21 @@ public class generateObjects {
 		}
 	}
 
-	public void generateNewState(Country_Region country, CSVRecord record) {
+	public void generateNewState(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
-		String stateName = record.get("Province_State");
-
+		
+		String stateName = record.get(world.getHeader().getState_province());
 		String uniqueID = UUID.randomUUID().toString();
 		States state = new States(uniqueID, stateName);
+		// if header = province/state do this
+		// which will be set long lat 
 
-		boolean notAvailable = modelHelper.checkCountryContainsState(country, stateName);
+		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
+		boolean available = modelHelper.checkCountryContainsState(country, stateName);
 
-		if (notAvailable) {
-			// do nothing
-		} else {
+		if (!available) {
 			country.addState(state);
 		}
-
 	}	
 	
 	/*
@@ -77,21 +80,23 @@ public class generateObjects {
 	 * }
 	 */
 
-	public void generateNewCounty(States state, CSVRecord record) {
+	public void generateNewCounty(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
-		String countyName = record.get("Admin2");
-		Double latitude = Double.parseDouble(record.get("Lat"));
-		Double longitude = Double.parseDouble(record.get("Long_"));
+		String countyName = record.get(world.getHeader().getCounty());
+		Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
+		Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
 
 		CoronavirusStats stats = getCoronavirusStats(record);
 		String uniqueID = UUID.randomUUID().toString();
 		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, stats);
+		
+		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
+		States state = country.getStates().get(country.getStates().size() -1);
+		
 
-		boolean isAvailable = modelHelper.checkStateContainsCounty(state, countyName);
+		boolean available = modelHelper.checkStateContainsCounty(state, countyName);
 
-		if (isAvailable) {
-			// do nothing
-		} else {
+		if (!available) {
 			state.addStateCounty(county);
 		}
 
@@ -104,37 +109,47 @@ public class generateObjects {
 		return stats;
 	}
 
-	/*
-	 * public Header generateHeader(Set<String> headers) { String country_region;
-	 * String state_province; String lat; String long;
-	 * 
-	 * 
-	 * Iterator<String> itr = headers.iterator(); while(itr.hasNext()){
-	 * 
-	 * String headerValue = itr.next(); if(headerValue.matches(regex)) }
-	 * 
-	 * return new Header(country_region, state_province, lat, long); }
-	 */
+	
+	public Header generateHeader(Set<String> headers) { 
 
-//	private void generateNewProvince(Country_Region country, CSVRecord record) { 
-//		String provinceName = record.get("Province/State");
-//		Double latitude = Double.parseDouble(record.get("Lat"));
-//		Double longitude = Double.parseDouble(record.get("Long"));
-//		boolean isAvailable = true;
-//		
-//		for(Province province : country.getProvince()) 
-//		{
-//			if (province.getName().equals(provinceName) || province.getName().equals("")) {
-//				isAvailable = false;
-//			}
-//		}
-//		
-//		if(isAvailable = true) {
-//			// TODO: generate stats and add it to the province
-//			CoronavirusStats stats = fetchCoronavirusStats(record);
-//			Province province = new Province(1, provinceName, latitude, longitude, stats);
-//			country.addProvince(province);
-//		}
-//	}
+		ArrayList<String> headerArray = new ArrayList<String>();
+		headerArray.addAll(headers);
+		
+		if (headers.contains("Country_Region")) {
+			//USA CSV
+			Header header = new Header(headerArray.get(7), headerArray.get(6), headerArray.get(9), headerArray.get(8));
+			header.setCounty(headerArray.get(5));
+			return header;
+		}
+		else
+		{
+			//WORLD CSV
+			Header header = new Header(headerArray.get(1), headerArray.get(0), headerArray.get(3), headerArray.get(2));
+			return header;
+		}	
+		
+		/*
+		Pattern country = Pattern.compile("country", Pattern.CASE_INSENSITIVE);
 
+
+		
+	  
+		Iterator<String> itr = headers.iterator(); 
+		while(itr.hasNext()){
+			String headerValue = itr.next(); 
+			Matcher matcher = country.matcher(headerValue);
+			boolean containsCountry = matcher.find();
+			
+			if(containsCountry) {
+				System.out.println("contains country");
+			} else {
+				System.out.println("broke");
+			}
+			
+			Header header = new Header(headerArray.get(7), headerArray.get(6), headerArray.get(9), headerArray.get(8));
+	  }
+	*/
+	}
+	
+	
 }

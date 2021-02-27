@@ -78,23 +78,18 @@ public class CoronavirusDataService {
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {
 		
 		Set<String> headers = records.iterator().next().toMap().keySet();
-		//objectGenerator.generateHeader(headers);
-		// iterate through header
-		// get fields
-		// set to variables
-		// create header objects with variables in constuctor 
-	//	world.setHeader(objectGenerator.generateHeader(headers));
-		
+		world.setHeader(objectGenerator.generateHeader(headers));
+
 		for (CSVRecord record : records) {
 			
 			objectGenerator.generateNewCountry(world, record);
-			Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
+			objectGenerator.generateNewState(world, record);
 			
-			objectGenerator.generateNewState(country, record);
-			States state = country.getStates().get(country.getStates().size() -1);
 			
-			objectGenerator.generateNewCounty(state, record);
-			
+			//if record contains "admin2" then run this method or else will break
+			if(world.getHeader().getCounty() != null) {
+				objectGenerator.generateNewCounty(world, record);
+			}
 			
 		}	
 		return world;

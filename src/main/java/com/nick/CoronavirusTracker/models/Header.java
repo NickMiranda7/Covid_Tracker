@@ -10,7 +10,9 @@ public class Header {
 	private String Lat;
 	private String cases;
 	private String deaths;
+	private String county;
 	
+
 	public Header() {
 
 	}
@@ -69,8 +71,13 @@ public class Header {
 	public void setDeaths(String deaths) {
 		this.deaths = deaths;
 	}
+	public String getCounty() {
+		return county;
+	}
 
-
+	public void setCounty(String county) {
+		this.county = county;
+	}
 
 
 }
