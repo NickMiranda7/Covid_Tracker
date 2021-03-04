@@ -10,13 +10,25 @@
 			rel="stylesheet" 
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
 			crossorigin="anonymous">
-			<link rel="stylesheet" href="/css/style.css">
+			<link rel="stylesheet" href="/css/styles.css">
 			<script type="text/javascript" src="/scripts/mainScript.js"></script>
 <title>main page insert title here</title>
 </head>
 <body>
+<div class="headerTabs">
+  <button class="tablinks" onclick="openData('USA', this, 'red')" id="defualtOpen">USA</button>
+  <button class="tablinks" onclick="openData('WORLD', this, 'WORLD')">WORLD</button>
+</div>
 
+<div id="USA" class="mainContent">
+	<h1>United States Coronavirus Data</h1>
+	<p>stats and such</p>
+</div>
 
+<div id="WORLD" class="mainContent">
+	<h1>World Coronavirus Data</h1>
+	<p>stats and such</p>
+</div>
 
 </body>
 </html>

@@ -20,6 +20,6 @@ public class CoronavirusTrackerController {
 		
 		//model.addAttribute("World", coronavirusDataService.fetchVirusData());
 		
-		return "landingPage.jsp";
+		return "index.jsp";
 	}
 }

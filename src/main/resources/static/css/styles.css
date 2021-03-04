@@ -1,0 +1,35 @@
+@charset "ISO-8859-1";
+body {
+	
+	border: red;
+	border-style: dashed;
+}
+
+.tablinks {
+  background-color: #555;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 25%;
+}
+
+/* Change background color of buttons on hover */
+.tablinks:hover {
+  background-color: #777;
+}
+
+/* Set default styles for tab content */
+.mainContent {
+  color: white;
+  display: none;
+  padding: 50px;
+  text-align: center;
+}
+
+/* Style each tab content individually */
+#USA {background-color:red;}
+#WORLD {background-color:green;}
