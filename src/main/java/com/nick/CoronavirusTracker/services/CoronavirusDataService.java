@@ -71,7 +71,7 @@ public class CoronavirusDataService {
 		for (CSVRecord record : records) {
 			
 			objectGenerator.generateNewCountry(world, record);
-			objectGenerator.generateNewState_Province(world, record);
+			objectGenerator.generateNewState_Province(world, record, headers);
 			
 			
 			//if record contains "admin2" then run this method or else will break

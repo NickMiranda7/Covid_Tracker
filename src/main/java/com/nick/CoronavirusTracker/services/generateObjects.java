@@ -47,27 +47,31 @@ public class generateObjects {
 		}
 	}
 
-	public void generateNewState_Province(World world, CSVRecord record) {
+	public void generateNewState_Province(World world, CSVRecord record, Set<String> headers) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
 		String state_ProvinceName = record.get(world.getHeader().getState_province());
 		String uniqueID = UUID.randomUUID().toString();
-		
+
 		
 		State_Province state_province = new State_Province(uniqueID, state_ProvinceName);
-		Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
-		if(latitude != null) {
-			state_province.setLat(latitude);		
+		
+		if(headers.contains("Country/Region")) {
+			
+			if(!(record.get(world.getHeader().getLat())=="")) { 
+				Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
+				state_province.setLat(latitude); 
+			} 
+			
+			if(!(record.get(world.getHeader().getLong())== "")) {
+				Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
+				state_province.setLong(longitude); 
+			}
 		}
-		Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
-		if(longitude != null) {
-			state_province.setLong(longitude);			
-		}
-		// if header = province/state do this
-		// which will be set long lat 
+		
 
 		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-		boolean available = modelHelper.checkCountryContainsState(country, state_ProvinceName);
+		boolean available = modelHelper.checkCountryContainsState_Province(country, state_ProvinceName);
 
 		if (!available) {
 			country.addState_Province(state_province);

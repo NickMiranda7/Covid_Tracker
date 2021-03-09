@@ -7,7 +7,6 @@ public class Country_Region {
 
 	private String uid;
 	private String name;
-	private List<Province> Provinces;
 	private List<State_Province> State_Province;
 	// private CoronavirusStats CoronavirusStats;
 	
@@ -20,7 +19,6 @@ public class Country_Region {
 	public Country_Region(String uid, String name) {
 		this.uid = uid;
 		this.name = name;
-		this.Provinces = new ArrayList<Province>();
 		this.State_Province = new ArrayList<State_Province>();
 		// this.CoronavirusStats = CoronavirusStats;
 	}
@@ -37,13 +35,6 @@ public class Country_Region {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<Province> getProvince() {
-		return Provinces;
-	}
-	public void setProvince(List<Province> province) {
-		Provinces = province;
-	}
 	
 	public List<State_Province> getStates() {
 		return State_Province;
@@ -53,7 +44,6 @@ public class Country_Region {
 		State_Province = states_Province;
 	}
 	
-
 //	public CoronavirusStats getCoronavirusStats() {
 //		return CoronavirusStats;
 //	}
@@ -62,9 +52,6 @@ public class Country_Region {
 //		CoronavirusStats = coronavirusStats;
 //	}
 
-	public void addProvince(Province province) {
-		this.Provinces.add(province); 
-	}
 	public void addState_Province(State_Province state) {
 		this.State_Province.add(state);
 	}
