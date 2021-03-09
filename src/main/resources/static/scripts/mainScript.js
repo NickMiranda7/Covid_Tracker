@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 function openData(cityName, elmnt, color) {
   // Hide all elements with class="mainContent" by default */
   var i, mainContent, tablinks;
@@ -17,6 +20,5 @@ function openData(cityName, elmnt, color) {
 
 }
 
-// Get the element with id="defaultOpen" and click on 
-	var main = document.getElementById("defualtOpen");
-	console.log(main);
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();

@@ -1,8 +1,7 @@
 @charset "ISO-8859-1";
-body {
-	
-	border: red;
-	border-style: dashed;
+body *{
+
+	outline: 3px dotted red;
 }
 
 .tablinks {
@@ -31,5 +30,5 @@ body {
 }
 
 /* Style each tab content individually */
-#USA {background-color:red;}
-#WORLD {background-color:green;}
+/* #USA {background-color:red;}
+#WORLD {background-color:green;} */

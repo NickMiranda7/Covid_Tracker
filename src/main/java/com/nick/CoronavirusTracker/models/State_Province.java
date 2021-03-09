@@ -3,19 +3,22 @@ package com.nick.CoronavirusTracker.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class States{
+public class State_Province{
 
 	private String UID;
 	private String name;
+	private Double Lat;
+	private Double Long;
+	private CoronavirusStats CoronavirusStats;
 	
 	private List<USAStateCounty> USAStateCounties;
 
 	
-	public States() {
+	public State_Province() {
 		
 	}
 	
-	public States(String UID, String name) {
+	public State_Province(String UID, String name) {
 		this.UID = UID;
 		this.name = name;
 		this.USAStateCounties = new ArrayList<USAStateCounty>();
@@ -48,4 +51,30 @@ public class States{
 	public void addStateCounty(USAStateCounty stateCounty) {
 		this.USAStateCounties.add(stateCounty);
 	}
+
+	public Double getLat() {
+		return Lat;
+	}
+
+	public void setLat(Double lat) {
+		this.Lat = lat;
+	}
+
+	public Double getLong() {
+		return Long;
+	}
+
+	public void setLong(Double Long) {
+		this.Long = Long;
+	}
+
+	public CoronavirusStats getCoronavirusStats() {
+		return CoronavirusStats;
+	}
+
+	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
+		CoronavirusStats = coronavirusStats;
+	}
+	
+	
 }

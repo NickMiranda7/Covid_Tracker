@@ -5,31 +5,19 @@ import java.io.StringReader;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
+
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.nick.CoronavirusTracker.helpers.CSVHelpers;
 import com.nick.CoronavirusTracker.helpers.HttpHelpers;
-import com.nick.CoronavirusTracker.helpers.ModelHelpers;
-import com.nick.CoronavirusTracker.models.LocationStats;
 import com.nick.CoronavirusTracker.models.World;
-import com.nick.CoronavirusTracker.models.CoronavirusStats;
-import com.nick.CoronavirusTracker.models.Country_Region;
-import com.nick.CoronavirusTracker.models.Province;
-import com.nick.CoronavirusTracker.models.States;
-import com.nick.CoronavirusTracker.models.USAStateCounty;
-import com.nick.CoronavirusTracker.models.Header;
 
 @Service
 public class CoronavirusDataService {
@@ -83,7 +71,7 @@ public class CoronavirusDataService {
 		for (CSVRecord record : records) {
 			
 			objectGenerator.generateNewCountry(world, record);
-			objectGenerator.generateNewState(world, record);
+			objectGenerator.generateNewState_Province(world, record);
 			
 			
 			//if record contains "admin2" then run this method or else will break

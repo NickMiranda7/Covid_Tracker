@@ -3,7 +3,7 @@ package com.nick.CoronavirusTracker.helpers;
 import org.springframework.stereotype.Component;
 
 import com.nick.CoronavirusTracker.models.Country_Region;
-import com.nick.CoronavirusTracker.models.States;
+import com.nick.CoronavirusTracker.models.State_Province;
 import com.nick.CoronavirusTracker.models.World;
 
 @Component
@@ -18,7 +18,7 @@ public class ModelHelpers {
 	public boolean checkCountryContainsProvince(Country_Region country, final String name){
 		return country.getProvince().stream().anyMatch(o -> o.getName().equals(name));
 	}
-	public boolean checkStateContainsCounty(States state, final String name){
+	public boolean checkStateContainsCounty(State_Province state, final String name){
 		return state.getStateCounties().stream().anyMatch(o -> o.getName().equals(name));
 	}
 }

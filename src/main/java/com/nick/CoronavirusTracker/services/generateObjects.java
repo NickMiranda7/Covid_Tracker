@@ -15,7 +15,7 @@ import com.nick.CoronavirusTracker.helpers.ModelHelpers;
 import com.nick.CoronavirusTracker.models.CoronavirusStats;
 import com.nick.CoronavirusTracker.models.Country_Region;
 import com.nick.CoronavirusTracker.models.Header;
-import com.nick.CoronavirusTracker.models.States;
+import com.nick.CoronavirusTracker.models.State_Province;
 import com.nick.CoronavirusTracker.models.USAStateCounty;
 import com.nick.CoronavirusTracker.models.World;
 
@@ -47,20 +47,30 @@ public class generateObjects {
 		}
 	}
 
-	public void generateNewState(World world, CSVRecord record) {
+	public void generateNewState_Province(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
-		String stateName = record.get(world.getHeader().getState_province());
+		String state_ProvinceName = record.get(world.getHeader().getState_province());
 		String uniqueID = UUID.randomUUID().toString();
-		States state = new States(uniqueID, stateName);
+		
+		
+		State_Province state_province = new State_Province(uniqueID, state_ProvinceName);
+		Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
+		if(latitude != null) {
+			state_province.setLat(latitude);		
+		}
+		Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
+		if(longitude != null) {
+			state_province.setLong(longitude);			
+		}
 		// if header = province/state do this
 		// which will be set long lat 
 
 		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-		boolean available = modelHelper.checkCountryContainsState(country, stateName);
+		boolean available = modelHelper.checkCountryContainsState(country, state_ProvinceName);
 
 		if (!available) {
-			country.addState(state);
+			country.addState_Province(state_province);
 		}
 	}	
 	
@@ -91,7 +101,7 @@ public class generateObjects {
 		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, stats);
 		
 		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-		States state = country.getStates().get(country.getStates().size() -1);
+		State_Province state = country.getStates().get(country.getStates().size() -1);
 		
 
 		boolean available = modelHelper.checkStateContainsCounty(state, countyName);
