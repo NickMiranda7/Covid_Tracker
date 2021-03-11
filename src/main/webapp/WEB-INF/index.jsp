@@ -15,21 +15,13 @@
 <title>main page insert title here</title>
 </head>
 <body>
-<div class="headerTabs">
-  <button class="tablinks" onclick="openData('USA', this, 'red')" id="defaultOpen">USA</button>
-  <button class="tablinks" onclick="openData('WORLD', this, 'WORLD')">WORLD</button>
-</div>
+ 
+ <div class="main-container container">
+ 	<div class="row">
+		<div class="col col-lg"> table</div> 	
+		<div class="col col-lg"> header and graph</div> 	
+ 	</div>
+ </div>
 
-<div id="USA" class="mainContent">
-	<h1>United States Coronavirus Data</h1>
-	<p>stats and such</p>
-</div>
-
-<div id="WORLD" class="mainContent">
-	<h1>World Coronavirus Data</h1>
-	<p>stats and such</p>
-</div>
-
-<script type="text/javascript" src="/scripts/mainScript.js"></script>
 </body>
 </html>
