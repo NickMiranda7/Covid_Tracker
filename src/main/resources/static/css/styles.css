@@ -4,4 +4,8 @@ body *{
 	outline: 2px dotted red;
 }
 
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
 
