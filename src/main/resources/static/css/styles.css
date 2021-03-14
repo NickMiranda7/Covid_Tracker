@@ -1,14 +1,19 @@
 @charset "ISO-8859-1";
-body *{
+body * {
 
-	outline: 2px dotted red;
+	 /* outline: 2px dotted red;  */
 }
 
 .mainWrapper{
 	padding: 1.25em;
 }
 .col {
-	margin: 1.25em;
+	margin: .75em;
+}
+.col-lg-5 { width: 40% !important; }
+.col-xl-5 { width: 40% !important; }
+.mainPills {
+	border: 1px solid #dfe1e5;
 }
 #mapContainer{
 	padding: 175px;
@@ -24,9 +29,8 @@ body *{
 	display: block;
 	padding: .75em;
 }
-.mainDataTableTitle{
-	margin-left: 5px;
-	margin-right: 15px;
+.mainDataTableTitle {
+	margin-right: 20px;
 }
 
 .mini-table-header-wrap{
@@ -40,7 +44,7 @@ body *{
 
 #mini-table-header-Cases {
 	    border-right: 2px solid #ebebeb;
-	    margin-right: 5px;
+	    margin-right: 10px;
 }
 
 .main-table-wrap {
@@ -62,6 +66,10 @@ body *{
 }
 #mainDataTable-Location {
 	width: 75%;
+	padding-left: 8px !important;
+}
+.mainDataTableBody > tr > td{
+	padding-left: 8px !important;
 }
 
 
