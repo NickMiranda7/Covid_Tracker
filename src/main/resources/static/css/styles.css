@@ -4,8 +4,75 @@ body *{
 	outline: 2px dotted red;
 }
 
-.row {
-    display: flex;
-    flex-wrap: wrap;
+.mainWrapper{
+	padding: 1.25em;
+}
+.col {
+	margin: 1.25em;
+}
+#mapContainer{
+	padding: 175px;
+}
+.mainTableTitle {
+    border-bottom: 1px solid #565656;
+    padding: 16px 16px 16px 8px;
+    display: inline-block;
+    width: 100%;
+}
+.table-navigation-header {
+	margin-top: .10em;
+	display: block;
+	padding: .75em;
+}
+.mainDataTableTitle{
+	margin-left: 5px;
+	margin-right: 15px;
 }
 
+.mini-table-header-wrap{
+	padding: 7px 15px 10px 8px;
+}
+
+.mini-table-header {
+	width: 100%;
+    max-width: 400px;
+}
+
+#mini-table-header-Cases {
+	    border-right: 2px solid #ebebeb;
+	    margin-right: 5px;
+}
+
+.main-table-wrap {
+	margin-top: 10px;
+}
+.mainDataTable {
+    width: 100%;
+    display: table;
+}
+.mainDataTableHeaderRow{
+	width: 100%;
+}
+.mainDataTableHeader{
+	padding-right: 15px;
+    padding-bottom: 10px;
+    width: 110px;
+    max-width: 110px;
+    min-width: 110px;
+}
+#mainDataTable-Location {
+	width: 75%;
+}
+
+
+.mainDataHeader {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.dataHeaderWrap {
+	flex-direction: column;
+    justify-content: center;
+	align-items: center;
+}
