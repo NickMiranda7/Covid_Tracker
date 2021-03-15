@@ -18,7 +18,7 @@
 <div class="mainWrapper">
 	 <div class="container-fluid" id="topContainer">
 	 	<div class="row">
-			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" id="colTop">
+			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-top">
 				<div class="mainPills"> 
 				 	<span class="mainTableTitle">Caronavirus Statistics</span>
 					<div class="table-navigation-header">
@@ -75,10 +75,10 @@
 				</div>
 			</div> 	
 			
-		<div class="col col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
-				<div class="tabs">
+		<div class="col col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-bottom">
+				<div class="tabs mainTabs">
 					<button class="tablinks" onclick="openData(event, 'UnitedStates')">United States</button>
-					<button class="tablinks" onclick="openData(event, 'WorldWide')">WorldWide</button>
+					<button class="tablinks" onclick="openData(event, 'WorldWide')">World-Wide</button>
 				</div>			
 				<div class="mainDataHeader">
 					<div class="dataHeaderWrap">

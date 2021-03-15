@@ -9,6 +9,15 @@ body * {
 }
 .col {
 	margin: .75em;
+	margin-bottom: 45px !important;
+}
+.col-top {
+	margin-top: 0px !important;
+}
+
+.mainWrapper{
+	padding-left: 7px;
+	padding-right: 34px;
 }
 .col-lg-5 { width: 40% !important; }
 .col-xl-5 { width: 40% !important; }
@@ -72,15 +81,51 @@ body * {
 	padding-left: 8px !important;
 }
 
+.col-bottom {
+	margin-top: 0px;
+}
+
+.mainTabs {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
 
 .mainDataHeader {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-bottom: 35px;
     align-items: center;
-    margin-bottom: 20px;
+    text-align: center;
+    padding: 0px 40px 0px 20px; /* check again if things change */
 }
 .dataHeaderWrap {
-	flex-direction: column;
+    flex-direction: column;
     justify-content: center;
-	align-items: center;
+    align-items: center;
 }
+.dataTitle {
+	justify-content: center;
+    align-items: center;
+}
+
+.mainGraphWrap {
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: .5em;
+}
+.graphDropdown {
+	text-align: center !important;
+	margin-right: 18px;
+}
+ .mainGraph {
+ 	width: 100%;
+ }
+
+
+
