@@ -4,6 +4,13 @@ body * {
 	 /* outline: 2px dotted red;  */
 }
 
+[data-tab-content] {
+	display: none;
+}
+.active[data-tab-content] {
+	display: block;
+}
+
 .mainWrapper{
 	padding: 1.25em;
 }
@@ -51,7 +58,7 @@ body * {
     max-width: 400px;
 }
 
-#mini-table-header-Cases {
+.mini-table-header-Cases {
 	    border-right: 2px solid #ebebeb;
 	    margin-right: 10px;
 }
@@ -73,7 +80,7 @@ body * {
     max-width: 110px;
     min-width: 110px;
 }
-#mainDataTable-Location {
+.mainDataTable-Location {
 	width: 75%;
 	padding-left: 8px !important;
 }
