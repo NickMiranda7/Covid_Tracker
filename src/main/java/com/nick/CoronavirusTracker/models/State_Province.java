@@ -9,8 +9,7 @@ public class State_Province{
 	private String name;
 	private Double Lat;
 	private Double Long;
-	private CoronavirusStats CoronavirusStats;
-	
+	private List<CoronavirusStats> CoronavirusStats;
 	private List<USAStateCounty> USAStateCounties;
 
 	
@@ -68,13 +67,23 @@ public class State_Province{
 		this.Long = Long;
 	}
 
-	public CoronavirusStats getCoronavirusStats() {
+	public List<CoronavirusStats> getCoronavirusStats() {
 		return CoronavirusStats;
 	}
 
-	public void setCoronavirusStats(CoronavirusStats coronavirusStats) {
-		CoronavirusStats = coronavirusStats;
+	public void setCoronavirusStats(List<CoronavirusStats> coronavirusStats) {
+		this.CoronavirusStats = coronavirusStats;
 	}
 	
+	public void addCoronavirusStats(CoronavirusStats coronavirusStats) {
+		this.CoronavirusStats.add(coronavirusStats);
+	}
+	
+	/*public int calculateAllCountyCases() {
+		int totalCases = 0;
+		for (USAStateCounty stateCounty : this.USAStateCounties) {
+			totalCases = totalCases + stateCounty.getCoronavirusStats().getCases();
+		}
+		return totalCases;} */
 	
 }

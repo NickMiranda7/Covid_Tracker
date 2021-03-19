@@ -5,6 +5,9 @@ import java.io.StringReader;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,36 +32,45 @@ public class CoronavirusDataService {
 	@Autowired
 	private generateObjects objectGenerator;
 	
-	private static String VIRUS_DATA_USA = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
-	private static String VIRUS_DATA_WORLD = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-
+	private static String VIRUS_DATA_USA_CASES = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv";
+	private static String VIRUS_DATA_WORLD_CASES = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+	private static String VIRUS_DATA_USA_DEATHS = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv";
+	private static String VIRUS_DATA_WORLD_DEATHS = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+	private static String VIRUS_DATA_WORLD_RECOVERED = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
+	
+	
+	public List<World> worlds = new ArrayList<>();
 	// this annotation executes this method whenever the application is started
 	@PostConstruct
 	// schedules when this method will run
 	@Scheduled(cron = "* * 1 * * *")
 	public void fetchVirusData() throws IOException, InterruptedException  {
-
 	
 		World worldUS = objectGenerator.generateWorld("EarthUS");
-		
 		//fetches all US data
-		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA);
-		//worldUS.setHeader(CSVHelper.getHeader(usRecords.getHeaderNames());
-		//List<String> headers = parser.getHeaderNames();
-		
-		
+		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA_CASES);
 		iterateRecord(usRecords, worldUS);
 		
+		Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
+		iterateRecord(usdeathsRecords, worldUS);
 		
+			
+	
 		World world = objectGenerator.generateWorld("Earth");
-		
 		//fetches all World data
-		Iterable<CSVRecord> worldRecords = fetchCVSData(VIRUS_DATA_WORLD);
-		//worldUS.setHeader(CSVHelper.getHeader(usRecords.getHeaderNames());
-		//List<String> headers = parser.getHeaderNames();
+		Iterable<CSVRecord> worldCasesRecords = fetchCVSData(VIRUS_DATA_WORLD_CASES);
+		iterateRecord(worldCasesRecords, world);
 		
-		iterateRecord(worldRecords, world);
+		Iterable<CSVRecord> worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
+		iterateRecord(worldDeathsRecords, world);
 		
+		Iterable<CSVRecord> worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
+		iterateRecord(worldRecoveredRecords, world);
+		
+				
+		
+		worlds.add(worldUS);
+		worlds.add(world);
 	}
 
 	
@@ -66,7 +78,13 @@ public class CoronavirusDataService {
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {
 		
 		Set<String> headers = records.iterator().next().toMap().keySet();
-		world.setHeader(objectGenerator.generateHeader(headers));
+		try {
+			world.setHeader(objectGenerator.generateHeader(headers));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 		for (CSVRecord record : records) {
 			

@@ -24,14 +24,19 @@
 	<div class="row">
 			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-top">
 				<div class="mainPills"> 
-				 	<span class="mainTableTitle">Caronavirus Statistics</span>
+				 	<span class="mainTableTitle">Coronavirus Statistics</span>
 					<div class="table-navigation-header">
 						<span class="mainDataTableTitle">UNITED STATES</span>
+						
 						<select name="states/provinces" id="states/provinces-select">
-		    			<option value="">Show all</option>
-		    			<!-- for each state show -->
+		    			<option value="showAll">Show all</option>
+		    			<c:forEach var="country" items="${USA}">
+   							 <c:forEach var="state" items="${country.getStates()}"> 
+        						<option value="${state.name}">${state.name}</option>
+    						 </c:forEach> 
+						</c:forEach>
 						</select>
-					</div>
+					</div>			
 					<div class="mini-table-header-wrap">
 						<table class="mini-table-header">
 							<tr>
@@ -125,11 +130,14 @@
 	<div class="row">
 			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-top">
 				<div class="mainPills"> 
-				 	<span class="mainTableTitle">Caronavirus Statistics</span>
+				 	<span class="mainTableTitle">Coronavirus Statistics</span>
 					<div class="table-navigation-header">
 						<span class="mainDataTableTitle">WORLDWIDE</span>
 						<select name="states/provinces" id="states/provinces-select">
 		    			<option value="">Show all</option>
+		    			<c:forEach items="${worldCountries}" var="worldCountries">
+		    				<option value="${worldCountries.name}">${worldCountries.name}</option>
+		    			</c:forEach>
 		    			<!-- for each state show -->
 						</select>
 					</div>

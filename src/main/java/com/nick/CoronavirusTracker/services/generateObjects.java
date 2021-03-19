@@ -1,6 +1,11 @@
 package com.nick.CoronavirusTracker.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
@@ -67,6 +72,8 @@ public class generateObjects {
 				Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
 				state_province.setLong(longitude); 
 			}
+			
+			state_province.setCoronavirusStats(generateCoronavirusStats(record));
 		}
 		
 
@@ -100,9 +107,8 @@ public class generateObjects {
 		Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
 		Double longitude = Double.parseDouble(record.get(world.getHeader().getLong()));
 
-		CoronavirusStats stats = getCoronavirusStats(record);
 		String uniqueID = UUID.randomUUID().toString();
-		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, stats);
+		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, generateCoronavirusStats(record));
 		
 		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
 		State_Province state = country.getStates().get(country.getStates().size() -1);
@@ -116,15 +122,41 @@ public class generateObjects {
 
 	}
 
-	private CoronavirusStats getCoronavirusStats(CSVRecord record) {
-		int cases = Integer.parseInt(record.get(record.size() - 1));
-		int yesterdayCases = Integer.parseInt(record.get(record.size() - 2));
-		CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
-		return stats;
+	private ArrayList<CoronavirusStats> generateCoronavirusStats(CSVRecord record, World world) {
+		
+		ArrayList<CoronavirusStats> listOfStats = new ArrayList<CoronavirusStats>();	
+		Date startingDate = world.getHeader().getStartingDate();
+		// get current date minus 1 and increment the difference in days
+		
+		//Loop through all dates starting with header start date and incrementing
+		//create object, add to list
+		
+		//check to see if object exists with current date to add data
+		//run check to see what file is deaths vs recovered
+		
+		//CoronavirusStats stats = new CoronavirusStats(cases, yesterdayCases);
+		
+		return listOfStats;
 	}
 
+	public ArrayList<String> generateDates(int days, Date startingDate, ArrayList<String> headerArray) {
+				
+		ArrayList<String> dates = new ArrayList<String>();
+		
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(startingDate);
+		
+		int incrementValue = headerArray.size() - days;
+		for(int i = 0;i < incrementValue; i++) {
+			SimpleDateFormat format = new SimpleDateFormat("M/dd/yy");
+			String dateAsString = format.format(c.getTime());
+			dates.add(dateAsString);
+			c.add(Calendar.DATE, 1);
+		}
+		return dates;
+	}
 	
-	public Header generateHeader(Set<String> headers) { 
+	public Header generateHeader(Set<String> headers) throws ParseException  { 
 
 		ArrayList<String> headerArray = new ArrayList<String>();
 		headerArray.addAll(headers);
@@ -133,12 +165,28 @@ public class generateObjects {
 			//USA CSV
 			Header header = new Header(headerArray.get(7), headerArray.get(6), headerArray.get(9), headerArray.get(8));
 			header.setCounty(headerArray.get(5));
+			
+			String sourceDate = headerArray.get(11);
+			SimpleDateFormat format = new SimpleDateFormat("M/dd/yy");
+			Date myDate = format.parse(sourceDate);
+		
+			header.setStartingDate(myDate);
+			header.setDates(generateDates(11, myDate, headerArray));
+			
 			return header;
 		}
 		else
 		{
 			//WORLD CSV
 			Header header = new Header(headerArray.get(1), headerArray.get(0), headerArray.get(3), headerArray.get(2));
+			
+			String sourceDate = headerArray.get(4);
+			SimpleDateFormat format = new SimpleDateFormat("M/dd/yy");
+			Date myDate = format.parse(sourceDate);
+		
+			header.setStartingDate(myDate);
+			header.setDates(generateDates(4, myDate, headerArray));
+			
 			return header;
 		}	
 		

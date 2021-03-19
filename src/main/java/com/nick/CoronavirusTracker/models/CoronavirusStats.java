@@ -1,53 +1,59 @@
 package com.nick.CoronavirusTracker.models;
 
+import java.util.Date;
 
 public class CoronavirusStats {
 
-	// private LocalDate date;
-	// private HashMap<LocalDate, Integer> casesRecorded = new HashMap<LocalDate, Integer>();
+	
+	private Date date;
 	private int cases;
-	private int yesterdayCases;
-	// private int deaths;
-	// Recovered?
+	private int deaths;
+	private int recovered;
 	
 	public CoronavirusStats() {
 		
 	}
 
-
-	public CoronavirusStats(int cases, int yesterdayCases) {
+	public CoronavirusStats(int cases) {
 		this.cases = cases;
-		this.yesterdayCases = yesterdayCases;
 		// this.deaths = deaths;
 	}
 
-
-	public int Cases() {
+	public int getCases() {
 		return cases;
 	}
 
-	public void Cases(int latestTotalCases) {
+	public void setCases(int latestTotalCases) {
 		this.cases = latestTotalCases;
 	}
 
-
-	public int getYesterdayCases() {
-		return yesterdayCases;
+	public Date getDate() {
+		return date;
 	}
 
 
-	public void setYesterdayCases(int yesterdayCases) {
-		this.yesterdayCases = yesterdayCases;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
-//
-//	public int getDeaths() {
-//		return deaths;
-//	}
-//
-//
-//	public void setDeaths(int deaths) {
-//		this.deaths = deaths;
-//	}
+
+	public int getDeaths() {
+		return deaths;
+	}
+
+
+	public void setDeaths(int deaths) {
+		this.deaths = deaths;
+	}
+
+
+	public int getRecovered() {
+		return recovered;
+	}
+
+
+	public void setRecovered(int recovered) {
+		this.recovered = recovered;
+	}
 
 }

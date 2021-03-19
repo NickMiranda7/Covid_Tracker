@@ -7,8 +7,8 @@ public class World {
 
 	private String uid;
 	private String name;
-	private List<Country_Region> country_Regions;
 	private Header header;
+	private List<Country_Region> country_Regions;
 
 	public World() {
 

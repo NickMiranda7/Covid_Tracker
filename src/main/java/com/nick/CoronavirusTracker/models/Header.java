@@ -1,6 +1,7 @@
 package com.nick.CoronavirusTracker.models;
 
-
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Header {
 
@@ -11,6 +12,8 @@ public class Header {
 	private String cases;
 	private String deaths;
 	private String county;
+	private Date startingDate;
+	private ArrayList<String> dates;
 	
 
 	public Header() {
@@ -77,6 +80,22 @@ public class Header {
 
 	public void setCounty(String county) {
 		this.county = county;
+	}
+
+	public Date getStartingDate() {
+		return startingDate;
+	}
+
+	public void setStartingDate(Date startingDate) {
+		this.startingDate = startingDate;
+	}
+
+	public ArrayList<String> getDates() {
+		return dates;
+	}
+
+	public void setDates(ArrayList<String> dates) {
+		this.dates = dates;
 	}
 
 
