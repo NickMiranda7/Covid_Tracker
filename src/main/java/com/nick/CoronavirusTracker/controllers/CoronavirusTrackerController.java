@@ -30,7 +30,6 @@ public class CoronavirusTrackerController {
 			World world = new World();
 			if (worldName == "USA") {
 				world = coronavirusDataService.worlds.get(0);
-				System.out.println(world);
 			}
 			else
 			{

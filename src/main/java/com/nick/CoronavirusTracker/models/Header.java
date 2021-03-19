@@ -9,10 +9,9 @@ public class Header {
 	private String state_province;
 	private String Long;
 	private String Lat;
-	private String cases;
-	private String deaths;
 	private String county;
 	private Date startingDate;
+	private int dateStart;
 	private ArrayList<String> dates;
 	
 
@@ -59,21 +58,6 @@ public class Header {
 		Lat = lat;
 	}
 
-	public String getCases() {
-		return cases;
-	}
-
-	public void setCases(String cases) {
-		this.cases = cases;
-	}
-
-	public String getDeaths() {
-		return deaths;
-	}
-
-	public void setDeaths(String deaths) {
-		this.deaths = deaths;
-	}
 	public String getCounty() {
 		return county;
 	}
@@ -96,6 +80,14 @@ public class Header {
 
 	public void setDates(ArrayList<String> dates) {
 		this.dates = dates;
+	}
+
+	public int getDateStart() {
+		return dateStart;
+	}
+
+	public void setDateStart(int dateStart) {
+		this.dateStart = dateStart;
 	}
 
 

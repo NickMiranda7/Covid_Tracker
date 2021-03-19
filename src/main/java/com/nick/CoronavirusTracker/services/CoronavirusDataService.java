@@ -51,24 +51,28 @@ public class CoronavirusDataService {
 		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA_CASES);
 		iterateRecord(usRecords, worldUS);
 		
-		Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
-		iterateRecord(usdeathsRecords, worldUS);
+		/*
+		 * Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
+		 * iterateRecord(usdeathsRecords, worldUS);
+		 */
 		
-			
-	
+
 		World world = objectGenerator.generateWorld("Earth");
 		//fetches all World data
 		Iterable<CSVRecord> worldCasesRecords = fetchCVSData(VIRUS_DATA_WORLD_CASES);
 		iterateRecord(worldCasesRecords, world);
 		
-		Iterable<CSVRecord> worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
-		iterateRecord(worldDeathsRecords, world);
+		/*
+		 * Iterable<CSVRecord> worldDeathsRecords =
+		 * fetchCVSData(VIRUS_DATA_WORLD_DEATHS); iterateRecord(worldDeathsRecords,
+		 * world);
+		 * 
+		 * Iterable<CSVRecord> worldRecoveredRecords =
+		 * fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
+		 * iterateRecord(worldRecoveredRecords, world);
+		 */
 		
-		Iterable<CSVRecord> worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
-		iterateRecord(worldRecoveredRecords, world);
-		
-				
-		
+
 		worlds.add(worldUS);
 		worlds.add(world);
 	}
@@ -84,7 +88,6 @@ public class CoronavirusDataService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 
 		for (CSVRecord record : records) {
 			

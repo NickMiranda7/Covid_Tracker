@@ -16,7 +16,6 @@ public class CoronavirusStats {
 
 	public CoronavirusStats(int cases) {
 		this.cases = cases;
-		// this.deaths = deaths;
 	}
 
 	public int getCases() {
