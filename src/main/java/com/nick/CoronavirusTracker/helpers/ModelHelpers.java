@@ -13,7 +13,7 @@ public class ModelHelpers {
 	    return world.getCountry_Regions().stream().anyMatch(o -> o.getName().equals(name));
 	}
 	public boolean checkCountryContainsState_Province(Country_Region country, final String name){
-		return country.getStates().stream().anyMatch(o -> o.getName().equals(name));
+		return country.getStates_Provinces().stream().anyMatch(o -> o.getName().equals(name));
 	}
 	public boolean checkStateContainsCounty(State_Province state, final String name){
 		return state.getStateCounties().stream().anyMatch(o -> o.getName().equals(name));

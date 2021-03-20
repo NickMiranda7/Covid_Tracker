@@ -50,26 +50,25 @@ public class CoronavirusDataService {
 		//fetches all US data
 		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA_CASES);
 		iterateRecord(usRecords, worldUS);
-		
 		/*
 		 * Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
 		 * iterateRecord(usdeathsRecords, worldUS);
-		 */
+		 * System.out.println("we finished us deaths");
+		 */ 
 		
 
 		World world = objectGenerator.generateWorld("Earth");
 		//fetches all World data
 		Iterable<CSVRecord> worldCasesRecords = fetchCVSData(VIRUS_DATA_WORLD_CASES);
 		iterateRecord(worldCasesRecords, world);
-		
 		/*
-		 * Iterable<CSVRecord> worldDeathsRecords =
-		 * fetchCVSData(VIRUS_DATA_WORLD_DEATHS); iterateRecord(worldDeathsRecords,
-		 * world);
-		 * 
-		 * Iterable<CSVRecord> worldRecoveredRecords =
-		 * fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
+		 * System.out.println("we finished world cases"); Iterable<CSVRecord>
+		 * worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
+		 * iterateRecord(worldDeathsRecords,world);
+		 * System.out.println("we finished world deaths"); Iterable<CSVRecord>
+		 * worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
 		 * iterateRecord(worldRecoveredRecords, world);
+		 * System.out.println("we finished recovered");
 		 */
 		
 
@@ -82,24 +81,23 @@ public class CoronavirusDataService {
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {
 		
 		Set<String> headers = records.iterator().next().toMap().keySet();
+
 		try {
 			world.setHeader(objectGenerator.generateHeader(headers));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		for (CSVRecord record : records) {
 			
 			objectGenerator.generateNewCountry(world, record);
+
 			objectGenerator.generateNewState_Province(world, record, headers);
-			
 			
 			//if record contains "admin2" then run this method or else will break
 			if(world.getHeader().getCounty() != null) {
 				objectGenerator.generateNewCounty(world, record);
 			}
-			
 		}	
 		return world;
 	}
@@ -122,4 +120,3 @@ public class CoronavirusDataService {
 	
 }
 
-// for loop on list and check list inside if contains list

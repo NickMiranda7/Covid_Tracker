@@ -10,8 +10,9 @@ public class Header {
 	private String Long;
 	private String Lat;
 	private String county;
+	private String recovered;
 	private Date startingDate;
-	private int dateStart;
+	private int amountOfDates;
 	private ArrayList<String> dates;
 	
 
@@ -82,12 +83,21 @@ public class Header {
 		this.dates = dates;
 	}
 
-	public int getDateStart() {
-		return dateStart;
+
+	public String getRecovered() {
+		return recovered;
 	}
 
-	public void setDateStart(int dateStart) {
-		this.dateStart = dateStart;
+	public void setRecovered(String recovered) {
+		this.recovered = recovered;
+	}
+
+	public int getAmountOfDates() {
+		return amountOfDates;
+	}
+
+	public void setAmountOfDates(int amountOfDates) {
+		this.amountOfDates = amountOfDates;
 	}
 
 

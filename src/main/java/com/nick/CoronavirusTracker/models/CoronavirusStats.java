@@ -5,53 +5,54 @@ import java.util.Date;
 public class CoronavirusStats {
 
 	
-	private Date date;
-	private int cases;
-	private int deaths;
-	private int recovered;
+	private String date;
+	private Integer cases = null;
+	private Integer deaths = null;
+	private Integer recovered = null;
 	
 	public CoronavirusStats() {
 		
 	}
 
-	public CoronavirusStats(int cases) {
+	public CoronavirusStats(String date, Integer cases) {
+		this.date = date;
 		this.cases = cases;
 	}
 
-	public int getCases() {
+	public Integer getCases() {
 		return cases;
 	}
 
-	public void setCases(int latestTotalCases) {
+	public void setCases(Integer latestTotalCases) {
 		this.cases = latestTotalCases;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
 
-	public int getDeaths() {
+	public Integer getDeaths() {
 		return deaths;
 	}
 
 
-	public void setDeaths(int deaths) {
+	public void setDeaths(Integer deaths) {
 		this.deaths = deaths;
 	}
 
 
-	public int getRecovered() {
+	public Integer getRecovered() {
 		return recovered;
 	}
 
 
-	public void setRecovered(int recovered) {
+	public void setRecovered(Integer recovered) {
 		this.recovered = recovered;
 	}
 
