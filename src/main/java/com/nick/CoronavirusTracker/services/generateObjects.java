@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -53,7 +54,7 @@ public class generateObjects {
 		}
 	}
 
-	public void generateNewState_Province(World world, CSVRecord record, Set<String> headers) {
+	public void generateNewState_Province(World world, CSVRecord record) {
 		// TODO: Create helper attribute to contain CSV file headings -- do this last
 		
 		String state_ProvinceName = record.get(world.getHeader().getState_province());
@@ -65,7 +66,7 @@ public class generateObjects {
 
 		if (!available) {
 		
-			if(headers.contains("Country/Region")) {
+			if(world.getHeader().getCountry_region().contains("Country/Region")) {
 				
 				if(!(record.get(world.getHeader().getLat())=="")) { 
 					Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
@@ -77,12 +78,12 @@ public class generateObjects {
 					state_province.setLong(longitude); 
 				}
 				
+				state_province.setCoronavirusStats(generateCoronavirusStats(record, world));
 			}
-		
-		state_province.setCoronavirusStats(generateCoronavirusStats(record, world));
 		country.addState_Province(state_province);
+		System.out.println("added state : " + state_province.getName());
 		
-		} else {
+		} else if (world.getHeader().getCountry_region().contains("Country/Region")){
 			updateCoronavirusStats(record, world);
 		}
 	}	
@@ -112,14 +113,18 @@ public class generateObjects {
 		String uniqueID = UUID.randomUUID().toString();
 		List<CoronavirusStats> CoronavirusStats = generateCoronavirusStats(record, world);
 		USAStateCounty county = new USAStateCounty(uniqueID, countyName, latitude, longitude, CoronavirusStats);
+				
+		//Optional<Country_Region> country = modelHelper.findCountryInWorld(world, record);
 		
-		Country_Region country = world.getCountry_Regions().get(world.getCountry_Regions().size()-1);
-		State_Province state = country.getStates_Provinces().get(country.getStates_Provinces().size() -1);
+		Optional<State_Province> state = modelHelper.findStateProvinceInWorld(world, record);
+		System.out.println("found state : " + state.get().getName());
+		
+		Optional<USAStateCounty> foundCounty = modelHelper.findCountyInWorld(world, record);
+		//boolean available = modelHelper.checkStateContainsCounty(state, countyName);
 
-		boolean available = modelHelper.checkStateContainsCounty(state, countyName);
-
-		if (!available) {
-			state.addStateCounty(county);
+		if (foundCounty.get() == null) {
+			state.get().addStateCounty(county);
+			System.out.println("added county : " + county.getName());
 		} else
 		{
 			updateCoronavirusStats(record, world);
@@ -136,7 +141,7 @@ public class generateObjects {
 		
 		int recordSize = record.size() - world.getHeader().getAmountOfDates();
 		for(int i = 0; i < recordSize; i++) {
-			
+
 			SimpleDateFormat format = new SimpleDateFormat("M/d/yy");
 			String dateAsString = format.format(c.getTime());
 			
@@ -167,15 +172,15 @@ public class generateObjects {
 	
 		if (world.getHeader().getCounty() != null) {
 			
-			USAStateCounty county = getCountyInWorld(record, world);
+			Optional<USAStateCounty> county = modelHelper.findCountyInWorld(world, record);
 			for(int i = 0; i < recordSize; i++) {
 				
 				SimpleDateFormat format = new SimpleDateFormat("M/d/yy");
 				String dateAsString = format.format(c.getTime());
 				
-				if(county.getCoronavirusStats().get(0).getDeaths() == null) {					
+				if(county.get().getCoronavirusStats().get(0).getDeaths() == null) {					
 					int deaths = Integer.parseInt(record.get(dateAsString));
-					county.getCoronavirusStats().forEach(CoronavirusStats -> {
+					county.get().getCoronavirusStats().forEach(CoronavirusStats -> {
 						CoronavirusStats.setDeaths(deaths);
 					});
 			
@@ -188,21 +193,21 @@ public class generateObjects {
 		else 
 		{
 		
-			State_Province stateProvince = getStateProvinceInWorld (record, world);
+			Optional<State_Province> stateProvince = modelHelper.findStateProvinceInWorld(world, record);
 			for(int i = 0; i < recordSize; i++) {
 				
 				SimpleDateFormat format = new SimpleDateFormat("M/d/yy");
 				String dateAsString = format.format(c.getTime());
 				
-				if(stateProvince.getCoronavirusStats().get(0).getDeaths() == null) {					
+				if(stateProvince.get().getCoronavirusStats().get(0).getDeaths() == null) {					
 					int deaths = Integer.parseInt(record.get(dateAsString));
-					stateProvince.getCoronavirusStats().forEach(CoronavirusStats -> {
+					stateProvince.get().getCoronavirusStats().forEach(CoronavirusStats -> {
 						CoronavirusStats.setDeaths(deaths);
 					});
 			
-				} else if(stateProvince.getCoronavirusStats().get(0).getDeaths() != null) {					
+				} else if(stateProvince.get().getCoronavirusStats().get(0).getDeaths() != null) {					
 						int recovered = Integer.parseInt(record.get(dateAsString));
-						stateProvince.getCoronavirusStats().forEach(CoronavirusStats -> {
+						stateProvince.get().getCoronavirusStats().forEach(CoronavirusStats -> {
 							CoronavirusStats.setRecovered(recovered);
 						});
 				}
@@ -216,65 +221,7 @@ public class generateObjects {
 		
 		//in county loop update stats
 		
-	}
-	
-	private State_Province getStateProvinceInWorld (CSVRecord record, World world) {
-		String countryRegionName = record.get(world.getHeader().getCountry_region());
-		String state_ProvinceName = record.get(world.getHeader().getState_province());
-		
-		Country_Region foundCountry = new Country_Region();
-		List<Country_Region> countries = world.getCountry_Regions();
-		for (Country_Region country : countries) {
-			if (country.getName() == countryRegionName) {
-				foundCountry = country;
-				break;
-			}
-		}
-		
-		List<State_Province> states = foundCountry.getStates_Provinces();
-		for (State_Province state_province : states) {
-			if (state_province.getName() == state_ProvinceName) {
-				return state_province;
-			}
-		}
-		return null;
-	}
-	
-	private USAStateCounty getCountyInWorld (CSVRecord record, World world) {
-		String countryRegionName = record.get(world.getHeader().getCountry_region());
-		String state_ProvinceName = record.get(world.getHeader().getState_province());
-		
-		Country_Region foundCountry = new Country_Region();
-		List<Country_Region> countries = world.getCountry_Regions();
-		for (Country_Region country : countries) {
-			if (country.getName() == countryRegionName) {
-				foundCountry = country;
-				break;
-			}
-		}
-		
-		State_Province foundStateProvince = new State_Province();
-//		world.getCountry_Regions().stream().filter(Country_Region -> countryRegionName.equals(countryRegionName))
-//		.findAny();
-		List<State_Province> states = foundCountry.getStates_Provinces();
-		for (State_Province state_province : states) {
-			if (state_province.getName() == state_ProvinceName) {
-				foundStateProvince = state_province;
-				break;
-			}
-		}
-		
-		String countyName = record.get(world.getHeader().getCounty());	
-			
-		List<USAStateCounty> counties = foundStateProvince.getStateCounties();
-		for (USAStateCounty USACounty : counties) {
-			if (USACounty.getName() == countyName) {
-				return USACounty;
-			}
-		}
-		return null;
-	}
-	
+	}	
 
 	public Header generateHeader(Set<String> headers) throws ParseException  { 
 
@@ -286,8 +233,11 @@ public class generateObjects {
 			Header header = new Header(headerArray.get(7), headerArray.get(6), headerArray.get(9), headerArray.get(8));
 			header.setCounty(headerArray.get(5));
 			header.setAmountOfDates(11);
-			
 			String sourceDate = headerArray.get(11);
+			if(headerArray.get(11).contains("Population")) {
+				header.setAmountOfDates(12);
+				sourceDate = headerArray.get(12);
+			}
 			SimpleDateFormat format = new SimpleDateFormat("M/dd/yy");
 			Date myDate = format.parse(sourceDate);
 			header.setStartingDate(myDate);
