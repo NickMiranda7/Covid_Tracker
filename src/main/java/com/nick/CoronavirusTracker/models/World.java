@@ -8,6 +8,7 @@ public class World {
 	private String uid;
 	private String name;
 	private Header header;
+	private boolean recovered = false;
 	private List<Country_Region> country_Regions;
 
 	public World() {
@@ -56,5 +57,13 @@ public class World {
 
 	public void setHeader(Header header) {
 		this.header = header;
+	}
+
+	public boolean isRecovered() {
+		return recovered;
+	}
+
+	public void setRecovered(boolean recovered) {
+		this.recovered = recovered;
 	}
 }

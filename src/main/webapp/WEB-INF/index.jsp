@@ -31,7 +31,7 @@
 						<select name="states/provinces" id="states/provinces-select">
 		    			<option value="showAll">Show all</option>
 		    			<c:forEach var="country" items="${USA}">
-   							 <c:forEach var="state" items="${country.getStates()}"> 
+   							 <c:forEach var="state" items="${country.getStates_Provinces()}"> 
         						<option value="${state.name}">${state.name}</option>
     						 </c:forEach> 
 						</c:forEach>

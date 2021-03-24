@@ -79,11 +79,12 @@ public class State_Province{
 		this.CoronavirusStats.add(coronavirusStats);
 	}
 	
-	/*public int calculateAllCountyCases() {
+	public int calculateAllCountyCases() {
 		int totalCases = 0;
 		for (USAStateCounty stateCounty : this.USAStateCounties) {
-			totalCases = totalCases + stateCounty.getCoronavirusStats().getCases();
+			totalCases = totalCases + stateCounty.getCoronavirusStats().get(stateCounty.getCoronavirusStats().size() -1).getCases();
 		}
-		return totalCases;} */
+		return totalCases;
+	} 
 	
 }

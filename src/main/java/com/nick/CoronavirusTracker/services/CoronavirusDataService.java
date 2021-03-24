@@ -40,56 +40,55 @@ public class CoronavirusDataService {
 	
 	
 	public List<World> worlds = new ArrayList<>();
+	
 	// this annotation executes this method whenever the application is started
 	@PostConstruct
 	// schedules when this method will run
-	@Scheduled(cron = "* * 1 * * *")
+	@Scheduled(cron = "0 0 0 * * *")
 	public void fetchVirusData() throws IOException, InterruptedException  {
 	
 		World worldUS = objectGenerator.generateWorld("EarthUS");
 		//fetches all US data
 		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA_CASES);
 		iterateRecord(usRecords, worldUS);
-
+		System.out.println("we finshes us cases");
+		
 		Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
 		iterateRecord(usdeathsRecords, worldUS);
 		System.out.println("we finished us deaths");
-		/* 
-		 * 
-		 * 
-		 * World world = objectGenerator.generateWorld("Earth"); //fetches all World
-		 * data Iterable<CSVRecord> worldCasesRecords =
-		 * fetchCVSData(VIRUS_DATA_WORLD_CASES); iterateRecord(worldCasesRecords,
-		 * world);
-		 * 
-		 * System.out.println("we finished world cases"); Iterable<CSVRecord>
-		 * worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
-		 * iterateRecord(worldDeathsRecords,world);
-		 * System.out.println("we finished world deaths"); Iterable<CSVRecord>
-		 * worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
-		 * iterateRecord(worldRecoveredRecords, world);
-		 * System.out.println("we finished recovered");
-		 */
 		
 		
-
+		World world = objectGenerator.generateWorld("Earth"); 
+		//fetches all world data
+		Iterable<CSVRecord> worldCasesRecords = fetchCVSData(VIRUS_DATA_WORLD_CASES); 
+		iterateRecord(worldCasesRecords, world);
+		System.out.println("we finished world cases"); 
+		
+		Iterable<CSVRecord> worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
+		iterateRecord(worldDeathsRecords,world);
+		System.out.println("we finished world deaths");
+		
+		Iterable<CSVRecord> worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
+		world.setRecovered(true);
+		iterateRecord(worldRecoveredRecords, world);
+		System.out.println("we finished recovered");
+		
 		worlds.add(worldUS);
-		//worlds.add(world);
+		worlds.add(world);
 	}
 
 	
 	//TODO:Can be made into one method hint:parameters
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {	
-	
-		Set<String> headers = records.iterator().next().toMap().keySet();
-
-		try {
-			world.setHeader(objectGenerator.generateHeader(headers));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+			
+			Set<String> headers = records.iterator().next().toMap().keySet();
+			
+			try {
+				world.setHeader(objectGenerator.generateHeader(headers));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		for (CSVRecord record : records) {
 			
