@@ -9,6 +9,9 @@ public class State_Province{
 	private String name;
 	private Double Lat;
 	private Double Long;
+	private int totalCases = 0;
+	private int totalDeaths = 0;
+
 	private List<CoronavirusStats> CoronavirusStats;
 	private List<USAStateCounty> USAStateCounties;
 
@@ -21,6 +24,22 @@ public class State_Province{
 		this.UID = UID;
 		this.name = name;
 		this.USAStateCounties = new ArrayList<USAStateCounty>();
+	}
+	
+	public int getTotalCases() {
+		return totalCases;
+	}
+	
+	public void setTotalCases(int totalCasesAdd) {
+		this.totalCases = this.totalCases + totalCasesAdd;
+	}
+	
+	public int getTotalDeaths() {
+		return totalDeaths;
+	}
+	
+	public void setTotalDeaths(int totalDeathsAdd) {
+		this.totalDeaths = this.totalDeaths + totalDeathsAdd;
 	}
 
 	public String getUID() {
@@ -85,6 +104,14 @@ public class State_Province{
 			totalCases = totalCases + stateCounty.getCoronavirusStats().get(stateCounty.getCoronavirusStats().size() -1).getCases();
 		}
 		return totalCases;
+	} 
+	
+	public int calculateAllCountyDeaths() {
+		int totalDeaths = 0;
+		for (USAStateCounty stateCounty : this.USAStateCounties) {
+			totalDeaths = totalDeaths + stateCounty.getCoronavirusStats().get(stateCounty.getCoronavirusStats().size() -1).getDeaths();
+		}
+		return totalDeaths;
 	} 
 	
 }

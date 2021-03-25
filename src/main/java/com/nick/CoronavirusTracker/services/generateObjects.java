@@ -78,6 +78,11 @@ public class generateObjects {
 				}
 				
 				state_province.setCoronavirusStats(generateCoronavirusStats(record, world));
+				//running total cases per country worldwide
+				int totalCases = state_province.getCoronavirusStats().get(state_province.getCoronavirusStats().size() -1).getCases();
+				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
+				foundCountry.get().setTotalCases(totalCases);
+				world.setTotalCases(totalCases);
 			}
 		
 		Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
@@ -86,7 +91,7 @@ public class generateObjects {
 		
 		} else if (world.getHeader().getCountry_region().contains("Country/Region")){
 			updateCoronavirusStats(record, world);
-		}
+		} 
 	}	
 
 	public void generateNewCounty(World world, CSVRecord record) {
@@ -106,6 +111,14 @@ public class generateObjects {
 
 			state.get().addStateCounty(county);
 			//System.out.println("added county : " + county.getName());
+			
+			//running total cases per state and country in worldUS
+			int totalCases = county.getCoronavirusStats().get(county.getCoronavirusStats().size() - 1).getCases();
+			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
+			foundState.get().setTotalCases(totalCases);
+			Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
+			foundCountry.get().setTotalCases(totalCases);
+			world.setTotalCases(totalCases);
 			
 		} 
 		else
@@ -170,6 +183,13 @@ public class generateObjects {
 				
 				c.add(Calendar.DATE, 1);
 			}
+			//running total deaths per state and country in worldUS
+			int totalDeaths = county.get().getCoronavirusStats().get(county.get().getCoronavirusStats().size() - 1).getDeaths();
+			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
+			foundState.get().setTotalDeaths(totalDeaths);
+			Country_Region unitedStates = world.getCountry_Regions().get(world.getCountry_Regions().size() -1);
+			unitedStates.setTotalDeaths(totalDeaths);
+			world.setTotalDeaths(totalDeaths);
 		} 
 		else 
 		{
@@ -206,6 +226,21 @@ public class generateObjects {
 				}
 				
 				c.add(Calendar.DATE, 1);
+			}
+			//running total deaths per country worldwide
+			if(world.isRecovered() == false) {
+				int totalDeaths = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -1).getDeaths();
+				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
+				foundCountry.get().setTotalDeaths(totalDeaths);
+				world.setTotalDeaths(totalDeaths);
+			}
+			//running total recovered per country worldwide
+			else if(world.isRecovered() == true) 
+			{
+				int totalRecovered = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -1).getRecovered();
+				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
+				foundCountry.get().setTotalRecovered(totalRecovered);
+				world.setTotalRecovered(totalRecovered);
 			}
 		}
 		

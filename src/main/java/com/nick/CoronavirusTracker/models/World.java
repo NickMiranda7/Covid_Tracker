@@ -8,7 +8,12 @@ public class World {
 	private String uid;
 	private String name;
 	private Header header;
+	private int totalCases = 0;
+	private int totalDeaths = 0;
+	private int totalRecovered = 0;
 	private boolean recovered = false;
+	
+
 	private List<Country_Region> country_Regions;
 
 	public World() {
@@ -23,6 +28,30 @@ public class World {
 	}
 
 
+	public int getTotalCases() {
+		return totalCases;
+	}
+	
+	public void setTotalCases(int totalCasesAdd) {
+		this.totalCases = this.totalCases + totalCasesAdd;
+	}
+	
+	public int getTotalDeaths() {
+		return totalDeaths;
+	}
+	
+	public void setTotalDeaths(int totalDeathsAdd) {
+		this.totalDeaths = this.totalDeaths + totalDeathsAdd;
+	}
+	
+	public int getTotalRecovered() {
+		return totalRecovered;
+	}
+	
+	public void setTotalRecovered(int totalRecoveredAdd) {
+		this.totalRecovered = this.totalRecovered + totalRecoveredAdd;
+	}
+	
 	public String getUID() {
 		return uid;
 	}

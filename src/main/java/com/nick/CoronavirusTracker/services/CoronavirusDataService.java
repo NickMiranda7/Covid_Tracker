@@ -71,6 +71,7 @@ public class CoronavirusDataService {
 		Iterable<CSVRecord> worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
 		world.setRecovered(true);
 		iterateRecord(worldRecoveredRecords, world);
+		worldUS.setTotalRecovered(world.getCountry_Regions().get(177).getTotalRecovered());
 		System.out.println("we finished recovered");
 		
 		worlds.add(worldUS);
@@ -81,14 +82,14 @@ public class CoronavirusDataService {
 	//TODO:Can be made into one method hint:parameters
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {	
 			
-			Set<String> headers = records.iterator().next().toMap().keySet();
+		Set<String> headers = records.iterator().next().toMap().keySet();
 			
-			try {
-				world.setHeader(objectGenerator.generateHeader(headers));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			world.setHeader(objectGenerator.generateHeader(headers));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for (CSVRecord record : records) {
 			
