@@ -51,22 +51,22 @@ public class CoronavirusDataService {
 		//fetches all US data
 		Iterable<CSVRecord> usRecords = fetchCVSData(VIRUS_DATA_USA_CASES);
 		iterateRecord(usRecords, worldUS);
-		System.out.println("we finshes us cases");
+		//System.out.println("we finshes us cases");
 		
 		Iterable<CSVRecord> usdeathsRecords = fetchCVSData(VIRUS_DATA_USA_DEATHS);
 		iterateRecord(usdeathsRecords, worldUS);
-		System.out.println("we finished us deaths");
+		//System.out.println("we finished us deaths");
 		
 		
 		World world = objectGenerator.generateWorld("Earth"); 
 		//fetches all world data
 		Iterable<CSVRecord> worldCasesRecords = fetchCVSData(VIRUS_DATA_WORLD_CASES); 
 		iterateRecord(worldCasesRecords, world);
-		System.out.println("we finished world cases"); 
+		//System.out.println("we finished world cases"); 
 		
 		Iterable<CSVRecord> worldDeathsRecords = fetchCVSData(VIRUS_DATA_WORLD_DEATHS);
 		iterateRecord(worldDeathsRecords,world);
-		System.out.println("we finished world deaths");
+		//System.out.println("we finished world deaths");
 		
 		Iterable<CSVRecord> worldRecoveredRecords = fetchCVSData(VIRUS_DATA_WORLD_RECOVERED);
 		world.setRecovered(true);

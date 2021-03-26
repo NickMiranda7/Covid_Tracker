@@ -93,18 +93,18 @@
 				<div class="mainDataHeader">
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">CONFIRMED</div>
-						<div class="dataNumber">9999999</div>
-						<div class="changeDailyHeader">+"34"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldUS.totalCases}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldUS.changeCasesSinceLastDay}"/></div> 
 					</div>
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">DEATHS</div>
-						<div class="dataNumber">1234567</div>
-						<div class="changeDailyHeader">+"0034"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldUS.totalDeaths}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldUS.changeDeathsSinceLastDay}"/></div>
 					</div>
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">RECOVERED</div>
-						<div class="dataNumber">000345</div>
-						<div class="changeDailyHeader">+"534"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldUS.totalRecovered}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldUS.changeRecoveredSinceLastDay}"/></div>
 					</div>
 				</div>
 				<div class="mainPills">
@@ -197,18 +197,18 @@
 				<div class="mainDataHeader">
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">CONFIRMED</div>
-						<div class="dataNumber">89034589083</div>
-						<div class="changeDailyHeader">+"34"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldWide.totalCases}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldWide.changeCasesSinceLastDay}"/></div>
 					</div>
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">DEATHS</div>
-						<div class="dataNumber">73847843</div>
-						<div class="changeDailyHeader">+"0034"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldWide.totalDeaths}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldWide.changeDeathsSinceLastDay}"/></div>
 					</div>
 					<div class="dataHeaderWrap">
 						<div class="dataTitle">RECOVERED</div>
-						<div class="dataNumber">00565</div>
-						<div class="changeDailyHeader">+"534"</div>
+						<div class="dataNumber"><fmt:formatNumber type="number" value="${worldWide.totalRecovered}"/></div>
+						<div class="changeDailyHeader">+<fmt:formatNumber type="number" value="${worldWide.changeRecoveredSinceLastDay}"/></div>
 					</div>
 				</div>
 				<div class="mainPills">

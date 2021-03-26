@@ -11,6 +11,9 @@ public class World {
 	private int totalCases = 0;
 	private int totalDeaths = 0;
 	private int totalRecovered = 0;
+	private int changeCasesSinceLastDay = 0;
+	private int changeDeathsSinceLastDay = 0;
+	private int changeRecoveredSinceLastDay = 0;
 	private boolean recovered = false;
 	
 
@@ -27,6 +30,29 @@ public class World {
 		this.country_Regions = new ArrayList<Country_Region>();
 	}
 
+	public int getChangeCasesSinceLastDay() {
+		return changeCasesSinceLastDay;
+	}
+	
+	public void setChangeCasesSinceLastDay(int changeCasesSinceLastDayAdd) {
+		this.changeCasesSinceLastDay = this.changeCasesSinceLastDay + changeCasesSinceLastDayAdd;
+	}
+	
+	public int getChangeDeathsSinceLastDay() {
+		return changeDeathsSinceLastDay;
+	}
+	
+	public void setChangeDeathsSinceLastDay(int changeDeathsSinceLastDayAdd) {
+		this.changeDeathsSinceLastDay = this.changeDeathsSinceLastDay + changeDeathsSinceLastDayAdd;
+	}
+	
+	public int getChangeRecoveredSinceLastDay() {
+		return changeRecoveredSinceLastDay;
+	}
+	
+	public void setChangeRecoveredSinceLastDay(int changeRecoveredSinceLastDayAdd) {
+		this.changeRecoveredSinceLastDay = this.changeRecoveredSinceLastDay + changeRecoveredSinceLastDayAdd;
+	}
 
 	public int getTotalCases() {
 		return totalCases;

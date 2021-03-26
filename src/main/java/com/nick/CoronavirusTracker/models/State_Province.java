@@ -11,6 +11,8 @@ public class State_Province{
 	private Double Long;
 	private int totalCases = 0;
 	private int totalDeaths = 0;
+	private int changeCasesSinceLastDay = 0;
+	private int changeDeathsSinceLastDay = 0;
 
 	private List<CoronavirusStats> CoronavirusStats;
 	private List<USAStateCounty> USAStateCounties;
@@ -24,6 +26,22 @@ public class State_Province{
 		this.UID = UID;
 		this.name = name;
 		this.USAStateCounties = new ArrayList<USAStateCounty>();
+	}
+	
+	public int getChangeCasesSinceLastDay() {
+		return changeCasesSinceLastDay;
+	}
+	
+	public void setChangeCasesSinceLastDay(int changeCasesSinceLastDayAdd) {
+		this.changeCasesSinceLastDay = this.changeCasesSinceLastDay + changeCasesSinceLastDayAdd;
+	}
+	
+	public int getChangeDeathsSinceLastDay() {
+		return changeDeathsSinceLastDay;
+	}
+	
+	public void setChangeDeathsSinceLastDay(int changeDeathsSinceLastDayAdd) {
+		this.changeDeathsSinceLastDay = this.changeDeathsSinceLastDay + changeDeathsSinceLastDayAdd;
 	}
 	
 	public int getTotalCases() {
@@ -97,21 +115,5 @@ public class State_Province{
 	public void addCoronavirusStats(CoronavirusStats coronavirusStats) {
 		this.CoronavirusStats.add(coronavirusStats);
 	}
-	
-	public int calculateAllCountyCases() {
-		int totalCases = 0;
-		for (USAStateCounty stateCounty : this.USAStateCounties) {
-			totalCases = totalCases + stateCounty.getCoronavirusStats().get(stateCounty.getCoronavirusStats().size() -1).getCases();
-		}
-		return totalCases;
-	} 
-	
-	public int calculateAllCountyDeaths() {
-		int totalDeaths = 0;
-		for (USAStateCounty stateCounty : this.USAStateCounties) {
-			totalDeaths = totalDeaths + stateCounty.getCoronavirusStats().get(stateCounty.getCoronavirusStats().size() -1).getDeaths();
-		}
-		return totalDeaths;
-	} 
 	
 }

@@ -80,9 +80,14 @@ public class generateObjects {
 				state_province.setCoronavirusStats(generateCoronavirusStats(record, world));
 				//running total cases per country worldwide
 				int totalCases = state_province.getCoronavirusStats().get(state_province.getCoronavirusStats().size() -1).getCases();
+				int totalPreviousDayCases = state_province.getCoronavirusStats().get(state_province.getCoronavirusStats().size() -2).getCases();
+				
 				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
 				foundCountry.get().setTotalCases(totalCases);
+				foundCountry.get().setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases);
+				
 				world.setTotalCases(totalCases);
+				world.setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases);
 			}
 		
 		Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
@@ -112,13 +117,24 @@ public class generateObjects {
 			state.get().addStateCounty(county);
 			//System.out.println("added county : " + county.getName());
 			
+			//TODO: make this a method and call it too much code here
 			//running total cases per state and country in worldUS
 			int totalCases = county.getCoronavirusStats().get(county.getCoronavirusStats().size() - 1).getCases();
-			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
-			foundState.get().setTotalCases(totalCases);
+			int totalPreviousDayCases = county.getCoronavirusStats().get(county.getCoronavirusStats().size() - 2).getCases();
+			
 			Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
 			foundCountry.get().setTotalCases(totalCases);
+			foundCountry.get().setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases); 
+			
+			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
+			foundState.get().setTotalCases(totalCases);
+			foundState.get().setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases); 
+			
+			county.setTotalCases(totalCases);
+			county.setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases);
+			
 			world.setTotalCases(totalCases);
+			world.setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases); 
 			
 		} 
 		else
@@ -183,13 +199,24 @@ public class generateObjects {
 				
 				c.add(Calendar.DATE, 1);
 			}
+			//TODO: make this a method and call it too much code here
 			//running total deaths per state and country in worldUS
 			int totalDeaths = county.get().getCoronavirusStats().get(county.get().getCoronavirusStats().size() - 1).getDeaths();
-			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
-			foundState.get().setTotalDeaths(totalDeaths);
+			int totalPreviousDayDeaths = county.get().getCoronavirusStats().get(county.get().getCoronavirusStats().size() - 2).getDeaths();
+			
 			Country_Region unitedStates = world.getCountry_Regions().get(world.getCountry_Regions().size() -1);
 			unitedStates.setTotalDeaths(totalDeaths);
+			unitedStates.setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
+			
+			Optional<State_Province> foundState = modelHelper.findStateProvinceInWorld(world, record);
+			foundState.get().setTotalDeaths(totalDeaths);
+			foundState.get().setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
+			
+			county.get().setTotalDeaths(totalDeaths);
+			county.get().setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
+			
 			world.setTotalDeaths(totalDeaths);
+			world.setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
 		} 
 		else 
 		{
@@ -230,17 +257,27 @@ public class generateObjects {
 			//running total deaths per country worldwide
 			if(world.isRecovered() == false) {
 				int totalDeaths = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -1).getDeaths();
+				int totalPreviousDayDeaths = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -2).getDeaths();
+				
 				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
 				foundCountry.get().setTotalDeaths(totalDeaths);
+				foundCountry.get().setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
+				
 				world.setTotalDeaths(totalDeaths);
+				world.setChangeDeathsSinceLastDay(totalDeaths - totalPreviousDayDeaths);
 			}
 			//running total recovered per country worldwide
 			else if(world.isRecovered() == true) 
 			{
 				int totalRecovered = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -1).getRecovered();
+				int totalPreviousDayRecovered = stateProvince.get().getCoronavirusStats().get(stateProvince.get().getCoronavirusStats().size() -2).getRecovered();
+				
 				Optional<Country_Region> foundCountry = modelHelper.findCountryInWorld(world, record);
 				foundCountry.get().setTotalRecovered(totalRecovered);
+				foundCountry.get().setChangeRecoveredSinceLastDay(totalRecovered - totalPreviousDayRecovered);
+				
 				world.setTotalRecovered(totalRecovered);
+				world.setChangeRecoveredSinceLastDay(totalRecovered - totalPreviousDayRecovered);
 			}
 		}
 		

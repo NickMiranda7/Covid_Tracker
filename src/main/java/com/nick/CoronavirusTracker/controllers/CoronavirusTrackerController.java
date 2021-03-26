@@ -40,6 +40,8 @@ public class CoronavirusTrackerController {
 			//model.addAttribute("worldUS");
 			model.addAttribute(worldName, world.getCountry_Regions());
 		}
+		model.addAttribute("worldUS", coronavirusDataService.worlds.get(0));
+		model.addAttribute("worldWide", coronavirusDataService.worlds.get(1));
 		
 		
 		return "index.jsp";

@@ -8,6 +8,10 @@ public class USAStateCounty {
 	private String name;
 	private Double Lat;
 	private Double Long;
+	private int totalCases = 0;
+	private int totalDeaths = 0;
+	private int changeCasesSinceLastDay = 0;
+	private int changeDeathsSinceLastDay = 0;
 	
 	private List<CoronavirusStats> CoronavirusStats;
 		
@@ -26,6 +30,38 @@ public class USAStateCounty {
 		this.Long = Long;
 		this.CoronavirusStats = CoronavirusStats;
 		
+	}
+
+	public int getChangeCasesSinceLastDay() {
+		return changeCasesSinceLastDay;
+	}
+	
+	public void setChangeCasesSinceLastDay(int changeCasesSinceLastDayAdd) {
+		this.changeCasesSinceLastDay = this.changeCasesSinceLastDay + changeCasesSinceLastDayAdd;
+	}
+	
+	public int getChangeDeathsSinceLastDay() {
+		return changeDeathsSinceLastDay;
+	}
+	
+	public void setChangeDeathsSinceLastDay(int changeDeathsSinceLastDayAdd) {
+		this.changeDeathsSinceLastDay = this.changeDeathsSinceLastDay + changeDeathsSinceLastDayAdd;
+	}
+	
+	public int getTotalCases() {
+		return totalCases;
+	}
+	
+	public void setTotalCases(int totalCasesAdd) {
+		this.totalCases = this.totalCases + totalCasesAdd;
+	}
+	
+	public int getTotalDeaths() {
+		return totalDeaths;
+	}
+	
+	public void setTotalDeaths(int totalDeathsAdd) {
+		this.totalDeaths = this.totalDeaths + totalDeathsAdd;
 	}
 
 

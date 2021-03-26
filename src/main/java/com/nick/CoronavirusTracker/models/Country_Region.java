@@ -10,19 +10,45 @@ public class Country_Region {
 	private int totalCases = 0;
 	private int totalDeaths = 0;
 	private int totalRecovered = 0;
-	private List<State_Province> State_Province;
+	private int changeCasesSinceLastDay = 0;
+	private int changeDeathsSinceLastDay = 0;
+	private int changeRecoveredSinceLastDay = 0;
 	
+	private List<State_Province> State_Province;
 
 	public Country_Region() {
 		
 	}
-	
 
 	public Country_Region(String uid, String name) {
 		this.uid = uid;
 		this.name = name;
 		this.State_Province = new ArrayList<State_Province>();
 		// this.CoronavirusStats = CoronavirusStats;
+	}
+	
+	public int getChangeCasesSinceLastDay() {
+		return changeCasesSinceLastDay;
+	}
+	
+	public void setChangeCasesSinceLastDay(int changeCasesSinceLastDayAdd) {
+		this.changeCasesSinceLastDay = this.changeCasesSinceLastDay + changeCasesSinceLastDayAdd;
+	}
+	
+	public int getChangeDeathsSinceLastDay() {
+		return changeDeathsSinceLastDay;
+	}
+	
+	public void setChangeDeathsSinceLastDay(int changeDeathsSinceLastDayAdd) {
+		this.changeDeathsSinceLastDay = this.changeDeathsSinceLastDay + changeDeathsSinceLastDayAdd;
+	}
+	
+	public int getChangeRecoveredSinceLastDay() {
+		return changeRecoveredSinceLastDay;
+	}
+	
+	public void setChangeRecoveredSinceLastDay(int changeRecoveredSinceLastDayAdd) {
+		this.changeRecoveredSinceLastDay = this.changeRecoveredSinceLastDay + changeRecoveredSinceLastDayAdd;
 	}
 	
 	public int getTotalCases() {
@@ -72,30 +98,6 @@ public class Country_Region {
 
 	public void addState_Province(State_Province state) {
 		this.State_Province.add(state);
-	}
-	
-	public int calculateAllStateProvinceCases() {
-		int totalCases = 0;
-		for (State_Province stateProvince : this.State_Province) {
-			totalCases = totalCases + stateProvince.getCoronavirusStats().get(stateProvince.getCoronavirusStats().size() - 1).getCases();
-		}
-		return totalCases;
-	}
-	
-	public int calculateAllStateProvinceDeaths() {
-		int totalDeaths = 0;
-		for (State_Province stateProvince : this.State_Province) {
-			totalDeaths = totalDeaths + stateProvince.getCoronavirusStats().get(stateProvince.getCoronavirusStats().size() - 1).getDeaths();
-		}
-		return totalDeaths;
-	}
-	
-	public int calculateAllStateProvinceRecovered() {
-		int totalRecovered = 0;
-		for (State_Province stateProvince : this.State_Province) {
-			totalRecovered = totalRecovered + stateProvince.getCoronavirusStats().get(stateProvince.getCoronavirusStats().size() - 1).getRecovered();
-		}
-		return totalRecovered;
 	}
 	
 }
