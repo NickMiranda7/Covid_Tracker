@@ -34,10 +34,14 @@ body * {
 #mapContainer{
 	padding: 175px;
 }
+.mainPillHeaderWrap {
+	text-align: center !important;
+} 
 .mainTableTitle {
     border-bottom: 1px solid #565656;
     padding: 16px 16px 16px 8px;
     display: inline-block;
+    align-items: center;
     width: 100%;
 }
 .table-navigation-header {
@@ -50,17 +54,15 @@ body * {
 }
 
 .mini-table-header-wrap{
-	padding: 7px 15px 10px 8px;
+	margin: 0px 40px 0px 0px;
 }
 
 .mini-table-header {
 	width: 100%;
-    max-width: 400px;
 }
 
 .mini-table-header-Cases {
-	    border-right: 2px solid #ebebeb;
-	    margin-right: 10px;
+	    border-right: 2px solid #ebebeb;   
 }
 
 .main-table-wrap {

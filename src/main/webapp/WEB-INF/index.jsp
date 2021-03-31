@@ -25,6 +25,7 @@
 	<div class="row">
 			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-top">
 				<div class="mainPills"> 
+				<div class="mainPillHeaderWrap">
 				 	<span class="mainTableTitle">Coronavirus Statistics</span>
 					<div class="table-navigation-header">
 						<span class="mainDataTableTitle">UNITED STATES</span>
@@ -62,6 +63,7 @@
 							</tr>
 						</table>
 					</div>
+				</div>
 					<div class="main-table-wrap">
 						<table class="mainDataTable">
 							<thead class="mainDataTableHead">
@@ -130,7 +132,8 @@
 	<div class="container-fluid" id="topContainer">
 	<div class="row">
 			<div class="col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-top">
-				<div class="mainPills"> 
+				<div class="mainPills">
+				<div class="mainPillHeaderWrap">
 				 	<span class="mainTableTitle">Coronavirus Statistics</span>
 					<div class="table-navigation-header">
 						<span class="mainDataTableTitle">WORLDWIDE</span>
@@ -166,6 +169,7 @@
 							</tr>
 						</table>
 					</div>
+				</div>
 					<div class="main-table-wrap">
 						<table class="mainDataTable">
 							<thead class="mainDataTableHead">
