@@ -66,7 +66,7 @@ public class generateObjects {
 			
 			if(world.getHeader().getCountry_region().contains("Country/Region")) {
 				
-				if(!(record.get(world.getHeader().getLat())=="")) { 
+				if(!(record.get(world.getHeader().getLat()) == "")) { 
 					Double latitude = Double.parseDouble(record.get(world.getHeader().getLat()));
 					state_province.setLat(latitude); 
 				} 
@@ -125,10 +125,11 @@ public class generateObjects {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(startingDate);
 		
-		int recordSize = record.size() - world.getHeader().getAmountOfDates();
-		for(int i = 0; i < recordSize; i++) {
+		SimpleDateFormat format = new SimpleDateFormat("M/d/yy");
+		
+		int amountOfDates = record.size() - world.getHeader().getAmountOfDates();
+		for(int i = 0; i < amountOfDates; i++) {
 
-			SimpleDateFormat format = new SimpleDateFormat("M/d/yy");
 			String dateAsString = format.format(c.getTime());
 			
 			int cases = Integer.parseInt(record.get(dateAsString));

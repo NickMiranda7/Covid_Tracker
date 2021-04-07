@@ -78,9 +78,10 @@ public class CoronavirusDataService {
 	
 	//TODO:Can be made into one method hint:parameters
 	private World iterateRecord(Iterable<CSVRecord> records, World world) {	
-			
+		
+		
 		Set<String> headers = records.iterator().next().toMap().keySet();
-			
+		
 		try {
 			world.setHeader(objectGenerator.generateHeader(headers));
 		} catch (ParseException e) {

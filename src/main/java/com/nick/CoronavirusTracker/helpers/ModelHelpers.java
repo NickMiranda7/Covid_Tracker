@@ -24,10 +24,7 @@ public class ModelHelpers {
 	
 	public Optional<State_Province> findStateProvinceInWorld (World world, CSVRecord record) {
 		
-		String countryRegionName = record.get(world.getHeader().getCountry_region());
-		Optional<Country_Region> country =
-				world.getCountry_Regions().stream().filter(Country_Region -> Country_Region.getName().equals(countryRegionName))
-				.findAny();
+		Optional<Country_Region> country = findCountryInWorld(world, record);
 		
 		String stateProvinceName = record.get(world.getHeader().getState_province());
 		Optional<State_Province> stateProvince = 
@@ -37,16 +34,8 @@ public class ModelHelpers {
 	}
 	
 	public Optional<USAStateCounty> findCountyInWorld (World world, CSVRecord record) {
-		
-		String countryRegionName = record.get(world.getHeader().getCountry_region());
-		Optional<Country_Region> country =
-				world.getCountry_Regions().stream().filter(Country_Region -> Country_Region.getName().equals(countryRegionName))
-				.findAny();
-		
-		String stateProvinceName = record.get(world.getHeader().getState_province());
-		Optional<State_Province> stateProvince = 
-				country.get().getStates_Provinces().stream().filter(State_Province -> State_Province.getName().equals(stateProvinceName))
-				.findAny();
+
+		Optional<State_Province> stateProvince = findStateProvinceInWorld(world, record);
 		
 		String countyName = record.get(world.getHeader().getCounty());
 		Optional<USAStateCounty> county =
@@ -63,6 +52,8 @@ public class ModelHelpers {
 		
 		Optional<Country_Region> foundCountry = findCountryInWorld(world, record);
 		foundCountry.get().setTotalCases(totalCases);
+		
+		//(Date)total cases - (Date-1) total cases
 		foundCountry.get().setChangeCasesSinceLastDay(totalCases - totalPreviousDayCases);
 		
 		world.setTotalCases(totalCases);
