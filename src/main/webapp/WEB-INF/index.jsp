@@ -12,7 +12,7 @@
 			crossorigin="anonymous">
 			<link rel="stylesheet" href="/css/styles.css">
 			<script src="/scripts/tagScript.js" defer></script>
-			<script src="/scripts/script.js" defer></script>
+			<script src="/scripts/script.js"></script>
 			
 <title>Coronavirus Tracker</title>
 </head>
@@ -30,11 +30,11 @@
 					<div class="table-navigation-header">
 						<span class="mainDataTableTitle">UNITED STATES</span>
 						
-						<select name="states/provinces" id="states/provinces-select">
+						<select name="states/provinces" id="states/provinces-select" onChange="setState(${state.name});" >
 		    			<option value="showAll">Show all</option>
 		    			<c:forEach var="country" items="${USA}">
    							 <c:forEach var="state" items="${country.getStates_Provinces()}"> 
-        						<option value="${state.name}">${state.name}</option>
+        						<option value="${state.name}" id="${state.name}" >${state.name}</option>
     						 </c:forEach> 
 						</c:forEach>
 						</select>

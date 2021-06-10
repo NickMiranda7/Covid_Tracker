@@ -3,6 +3,7 @@ package com.nick.CoronavirusTracker.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,4 +47,5 @@ public class CoronavirusTrackerController {
 		
 		return "index.jsp";
 	}
+	
 }

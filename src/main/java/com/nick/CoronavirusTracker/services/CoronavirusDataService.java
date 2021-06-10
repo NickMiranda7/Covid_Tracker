@@ -70,6 +70,7 @@ public class CoronavirusDataService {
 		iterateRecord(worldRecoveredRecords, world);
 		worldUS.setTotalRecovered(world.getCountry_Regions().get(177).getTotalRecovered());
 		
+		//TODO: create json out of world objects
 		System.out.println("program finished collecting all data");
 		worlds.add(worldUS);
 		worlds.add(world);
